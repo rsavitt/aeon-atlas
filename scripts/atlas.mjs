@@ -42,6 +42,8 @@ const OUT_JSON = resolve(ROOT, "atlas.json");
 const OUT_JSON_DOCS = resolve(ROOT, "docs/atlas.json");
 const OUT_MD = resolve(ROOT, "docs/atlas.md");
 const OUT_HTML = resolve(ROOT, "docs/atlas.html");
+const OUT_INNOVATIONS = resolve(ROOT, "docs/innovations.md");
+const OUT_DISABLED_DEFAULTS = resolve(ROOT, "docs/disabled-defaults.md");
 const CACHE_DIR = resolve(ROOT, ".atlas-cache");
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -81,6 +83,27 @@ function ghRaw(repoFullName, ref, path) {
   })();
   if (!obj || !obj.content) return null;
   return Buffer.from(obj.content, "base64").toString("utf8");
+}
+
+// List every skills/<slug>/SKILL.md path in a repo via the git tree API.
+// One call per repo (vs N for contents-API recursion), uses the ref's
+// commit SHA so the response is cacheable. Returns [] on any failure.
+function fetchSkillSlugs(repoFullName, ref) {
+  if (!ref) return [];
+  // Resolve branch → commit SHA so the tree API call is stable.
+  const branch = ghApi(`/repos/${repoFullName}/branches/${encodeURIComponent(ref)}`);
+  const sha = branch?.commit?.sha;
+  if (!sha) return [];
+  const tree = ghApi(`/repos/${repoFullName}/git/trees/${sha}?recursive=1`);
+  if (!tree || !Array.isArray(tree.tree)) return [];
+  const slugs = new Set();
+  for (const node of tree.tree) {
+    // Only paths matching `skills/<slug>/SKILL.md` — drop nested dirs and
+    // unrelated files. Same convention as upstream's skill layout.
+    const m = node.path && node.path.match(/^skills\/([a-z0-9][a-z0-9_-]*)\/SKILL\.md$/i);
+    if (m) slugs.add(m[1]);
+  }
+  return [...slugs].sort();
 }
 
 // ── enumerate forks (depth-limited BFS) ───────────────────────────────────
@@ -182,6 +205,7 @@ function buildGraph(repos) {
     htmlUrl: r.htmlUrl,
     enabledSkills: r.enabledSkills || [],
     skillCount: (r.enabledSkills || []).length,
+    shippedSkills: r.shippedSkills || [],
   }));
   const byId = new Map(nodes.map((n) => [n.id, n]));
 
@@ -250,6 +274,44 @@ function buildGraph(repos) {
     for (const s of n.enabledSkills) skillPopularity.set(s, (skillPopularity.get(s) || 0) + 1);
   }
 
+  // ── Innovations: skills present in a fork's skills/ tree but NOT upstream's.
+  // This is where actual code-level customization lives — the atlas was blind
+  // to this when it only parsed aeon.yml. Per-skill: which forks ship it;
+  // per-fork: which custom skills it carries.
+  const upstreamShipped = new Set(upstreamNode?.shippedSkills || []);
+  const innovationsByFork = nodes
+    .filter((n) => !n.isRoot && n.shippedSkills.length > 0)
+    .map((n) => ({
+      fork: n.id,
+      stars: n.stars,
+      novel: n.shippedSkills.filter((s) => !upstreamShipped.has(s)),
+    }))
+    .filter((x) => x.novel.length > 0)
+    .sort((a, b) => b.novel.length - a.novel.length);
+
+  const innovationsBySkill = new Map(); // slug → [forks shipping it]
+  for (const f of innovationsByFork) {
+    for (const slug of f.novel) {
+      if (!innovationsBySkill.has(slug)) innovationsBySkill.set(slug, []);
+      innovationsBySkill.get(slug).push(f.fork);
+    }
+  }
+
+  // ── Disabled-defaults audit: which skills does upstream ship enabled that
+  // forks systematically turn off? Counts and rates make the case for
+  // "these defaults are wrong" or "these defaults need a better explainer."
+  const upstreamEnabled = new Set(upstreamNode?.enabledSkills || []);
+  const forksWithYml = nodes.filter((n) => !n.isRoot && n.skillCount > 0);
+  const disabledDefaults = [...upstreamEnabled].map((slug) => {
+    const disablingForks = forksWithYml.filter((n) => !n.enabledSkills.includes(slug));
+    return {
+      slug,
+      disabledIn: disablingForks.length,
+      totalForksWithYml: forksWithYml.length,
+      disabledRate: forksWithYml.length > 0 ? Math.round((disablingForks.length / forksWithYml.length) * 1000) / 1000 : 0,
+    };
+  }).sort((a, b) => b.disabledRate - a.disabledRate);
+
   return {
     generatedAt: new Date().toISOString(),
     upstream: nodes.find((n) => n.isRoot)?.id || null,
@@ -257,6 +319,8 @@ function buildGraph(repos) {
       repos: nodes.length,
       forks: nodes.filter((n) => !n.isRoot).length,
       withAeonYml: nodes.filter((n) => n.skillCount > 0).length,
+      withCustomSkills: innovationsByFork.length,
+      novelSkillsCount: innovationsBySkill.size,
       archived: nodes.filter((n) => n.archived).length,
       forkEdges: edges.filter((e) => e.kind === "fork-of").length,
       skillEdges: edges.filter((e) => e.kind === "skill-overlap").length,
@@ -264,6 +328,11 @@ function buildGraph(repos) {
     },
     skillPopularity: [...skillPopularity.entries()].sort((a, b) => b[1] - a[1])
       .map(([slug, count]) => ({ slug, count })),
+    innovationsByFork,
+    innovationsBySkill: [...innovationsBySkill.entries()]
+      .sort((a, b) => b[1].length - a[1].length)
+      .map(([slug, forks]) => ({ slug, count: forks.length, forks })),
+    disabledDefaults,
     nodes,
     edges,
   };
@@ -305,6 +374,87 @@ function renderMarkdown(graph) {
     out += `| ${e.weight} | ${e.source} | ${e.target} | ${e.shared.join(", ")} |\n`;
   }
 
+  return out;
+}
+
+function renderInnovations(graph) {
+  const s = graph.stats;
+  let out = `---\nlayout: default\ntitle: "Aeon Atlas — Innovations"\npermalink: /innovations/\n---\n\n`;
+  out += `# Innovations\n\n`;
+  out += `> Auto-generated by \`scripts/atlas.mjs\` on ${graph.generatedAt.slice(0, 10)}. Skills that exist in a fork's \`skills/\` directory but **not** in [\`${graph.upstream}\`](https://github.com/${graph.upstream}).\n\n`;
+  out += `**${s.withCustomSkills}** of ${s.forks} forks ship at least one custom skill. **${s.novelSkillsCount}** distinct novel skills across the network.\n\n`;
+  out += `The atlas reads each fork's git tree (not just \`aeon.yml\`), so this catches skills that exist in code even when they're not enabled — the actual long tail of code-level innovation in the ecosystem.\n\n`;
+
+  out += `## Top creators (forks with the most novel skills)\n\n`;
+  out += `| Fork | Novel skills | ★ |\n|---|---:|---:|\n`;
+  for (const f of graph.innovationsByFork.slice(0, 12)) {
+    out += `| [${f.fork}](https://github.com/${f.fork}) | ${f.novel.length} | ${f.stars} |\n`;
+  }
+
+  const adoptedByMany = graph.innovationsBySkill.filter((s) => s.count >= 2);
+  out += `\n## Novel skills adopted by ≥ 2 forks\n\n`;
+  if (adoptedByMany.length === 0) {
+    out += `_None yet. Every novel skill in the ecosystem is shipped by exactly one fork._\n`;
+  } else {
+    out += `Skills that originated outside upstream and spread to multiple forks — strong candidates to surface upstream-side.\n\n`;
+    out += `| Skill | Shipped in | First forks |\n|---|---:|---|\n`;
+    for (const s of adoptedByMany.slice(0, 20)) {
+      out += `| \`${s.slug}\` | ${s.count} | ${s.forks.slice(0, 3).join(", ")}${s.forks.length > 3 ? " …" : ""} |\n`;
+    }
+  }
+
+  out += `\n## Full novel-skill inventory (per fork)\n\n`;
+  out += `<details><summary>Expand</summary>\n\n`;
+  for (const f of graph.innovationsByFork) {
+    out += `**[${f.fork}](https://github.com/${f.fork})** (${f.novel.length} novel)\n`;
+    out += `\n${f.novel.map((s) => "  - `" + s + "`").join("\n")}\n\n`;
+  }
+  out += `</details>\n`;
+
+  return out;
+}
+
+function renderDisabledDefaults(graph) {
+  let out = `---\nlayout: default\ntitle: "Aeon Atlas — Disabled Defaults"\npermalink: /disabled-defaults/\n---\n\n`;
+  out += `# Disabled defaults\n\n`;
+  out += `> Auto-generated by \`scripts/atlas.mjs\` on ${graph.generatedAt.slice(0, 10)}. Which upstream-enabled skills are systematically turned off by forks?\n\n`;
+
+  if (graph.disabledDefaults.length === 0) {
+    out += `Upstream currently ships **0 skills enabled by default**, so there are no defaults to disable.\n`;
+    return out;
+  }
+
+  const n = graph.stats.withAeonYml;
+  out += `Upstream (\`${graph.upstream}\`) ships **${graph.disabledDefaults.length}** skill(s) enabled by default. Across **${n}** forks with parseable \`aeon.yml\`, the disable rates are:\n\n`;
+  out += `| Skill | Disabled by | Rate |\n|---|---:|---:|\n`;
+  for (const d of graph.disabledDefaults) {
+    const pct = (d.disabledRate * 100).toFixed(0);
+    out += `| \`${d.slug}\` | ${d.disabledIn} / ${d.totalForksWithYml} | **${pct}%** |\n`;
+  }
+
+  const strongRejects = graph.disabledDefaults.filter((d) => d.disabledRate >= 0.5);
+  if (strongRejects.length > 0) {
+    out += `\n## ≥ 50% disable rate → defaults to reconsider\n\n`;
+    out += `Skills disabled by a majority of operators are strong candidates for upstream to either (a) ship disabled-by-default, (b) document better what the trade-off is, or (c) fix whatever's making them unwelcome.\n\n`;
+    for (const d of strongRejects) {
+      const pct = (d.disabledRate * 100).toFixed(0);
+      out += `- **\`${d.slug}\`** — disabled by ${pct}% of forks (${d.disabledIn} / ${d.totalForksWithYml}).\n`;
+    }
+  }
+
+  const accepted = graph.disabledDefaults.filter((d) => d.disabledRate < 0.05);
+  if (accepted.length > 0) {
+    out += `\n## Universally accepted defaults (< 5% disable rate)\n\n`;
+    out += `These defaults are working — almost no one turns them off.\n\n`;
+    for (const d of accepted) {
+      const pct = (d.disabledRate * 100).toFixed(1);
+      out += `- **\`${d.slug}\`** — disabled by only ${pct}% of forks.\n`;
+    }
+  }
+
+  out += `\n## How this is computed\n\n`;
+  out += `For each skill upstream has \`enabled: true\` in \`aeon.yml\`, count how many forks have \`enabled: false\` (or no entry for it) in their own \`aeon.yml\`. Forks that don't carry a parseable \`aeon.yml\` are excluded from the denominator.\n\n`;
+  out += `**Caveat:** the YAML probe is a regex (see \`scripts/atlas.mjs:parseEnabledSkills\`) that handles the single-line dict form (\`skill: { enabled: true, … }\`) but skips multi-line block dicts. Real disable rates may therefore be slightly under-counted for skills only ever set via the block form.\n`;
   return out;
 }
 
@@ -455,18 +605,20 @@ function main() {
   }
   console.log(`  found ${repos.length} repo(s) (including the upstream root)`);
 
-  // fetch aeon.yml for each
-  console.log(`atlas: fetching aeon.yml from each fork`);
+  // fetch aeon.yml + skills/ tree for each
+  console.log(`atlas: fetching aeon.yml and skills/ from each fork`);
   for (const r of repos) {
     if (r.isRoot || !r.defaultBranch) continue;
     const yml = ghRaw(r.fullName, r.defaultBranch, "aeon.yml");
     r.enabledSkills = parseEnabledSkills(yml);
+    r.shippedSkills = fetchSkillSlugs(r.fullName, r.defaultBranch);
   }
   // upstream itself
   const upstream = repos.find((r) => r.isRoot);
   if (upstream) {
     const yml = ghRaw(upstream.fullName, "main", "aeon.yml");
     upstream.enabledSkills = parseEnabledSkills(yml);
+    upstream.shippedSkills = fetchSkillSlugs(upstream.fullName, "main");
   }
 
   const graph = buildGraph(repos);
@@ -482,13 +634,18 @@ function main() {
   writeFileSync(OUT_JSON_DOCS, json);
   writeFileSync(OUT_MD, renderMarkdown(graph));
   writeFileSync(OUT_HTML, renderHtml(graph));
+  writeFileSync(OUT_INNOVATIONS, renderInnovations(graph));
+  writeFileSync(OUT_DISABLED_DEFAULTS, renderDisabledDefaults(graph));
 
   const s = graph.stats;
   console.log(`\natlas: ${s.repos} repos · ${s.withAeonYml} with aeon.yml · ${s.forkEdges} fork edges · ${s.skillEdges} skill-overlap edges · ${s.totalStars} ★`);
+  console.log(`  innovations: ${s.withCustomSkills} forks ship custom skills · ${s.novelSkillsCount} distinct novel slugs`);
   console.log(`  wrote atlas.json`);
   console.log(`  wrote docs/atlas.json`);
   console.log(`  wrote docs/atlas.md`);
   console.log(`  wrote docs/atlas.html`);
+  console.log(`  wrote docs/innovations.md`);
+  console.log(`  wrote docs/disabled-defaults.md`);
 }
 
 main();

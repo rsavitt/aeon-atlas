@@ -17,6 +17,8 @@ author:
 header_pages:
   - index.md
   - atlas.md
+  - innovations.md
+  - disabled-defaults.md
 
 # Permalinks
 permalink: /articles/:year/:month/:day/:title/

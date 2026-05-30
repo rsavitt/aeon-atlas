@@ -13,6 +13,8 @@ title: "Aeon Atlas"
   <div class="hero-links">
     <a class="btn btn-primary" href="atlas.html">Open the interactive map</a>
     <a class="btn btn-outline" href="atlas/">Digest</a>
+    <a class="btn btn-outline" href="innovations/">Innovations</a>
+    <a class="btn btn-outline" href="disabled-defaults/">Disabled defaults</a>
     <a class="btn btn-outline" href="https://github.com/rsavitt/aeon-atlas" target="_blank" rel="noopener">Source on GitHub</a>
   </div>
 </div>
