@@ -11,7 +11,8 @@ title: "Aeon Atlas"
     Regenerated weekly.
   </p>
   <div class="hero-links">
-    <a class="btn btn-primary" href="atlas.html">Open the interactive map</a>
+    <a class="btn btn-primary" href="universe/">Browse the universe graph</a>
+    <a class="btn btn-outline" href="atlas.html">Cytoscape map</a>
     <a class="btn btn-outline" href="atlas/">Digest</a>
     <a class="btn btn-outline" href="innovations/">Innovations</a>
     <a class="btn btn-outline" href="disabled-defaults/">Disabled defaults</a>

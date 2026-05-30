@@ -1,0 +1,29 @@
+---
+title: "keysemails/aeon"
+tags: [fork]
+stars: 0
+pushed: "2026-03-11"
+enabled_skills: 25
+shipped_skills: 32
+---
+
+# keysemails/aeon
+
+Background intelligence that evolves with you
+
+[Repository on GitHub](https://github.com/keysemails/aeon)
+
+- **★** 0
+- **Last push:** 2026-03-11
+- **Default branch:** `main`
+- **Enabled skills in `aeon.yml`:** 25
+- **Skills shipped in `skills/`:** 32
+
+## Parent
+
+- [[forks/aaronjmars-aeon|aaronjmars/aeon]]
+
+## Novel skills shipped (spread to ≥ 2 forks)
+
+- [[novel-skills/build-skill|build-skill]]
+- [[novel-skills/search-papers|search-papers]]

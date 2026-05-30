@@ -41,6 +41,7 @@ defaults:
 # Exclude from processing
 exclude:
   - "*.sh"
+  - universe
   - Gemfile
   - Gemfile.lock
   - node_modules/

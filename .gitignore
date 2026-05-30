@@ -50,3 +50,25 @@ node_modules/
 .external-work
 .vuln-scan/
 .atlas-cache/
+
+# Quartz build output (we ship to docs/universe/ instead)
+quartz/node_modules/
+quartz/public/
+quartz/.quartz-cache/
+quartz/.quartz/
+
+# Quartz upstream scaffold (vendored on demand by build-universe.sh)
+quartz/quartz/
+quartz/docs/
+quartz/.github/
+quartz/.husky/
+quartz/CHANGELOG.md
+quartz/CODE_OF_CONDUCT.md
+quartz/Dockerfile
+quartz/globals.d.ts
+quartz/index.d.ts
+quartz/LICENSE.txt
+quartz/README.md
+quartz/tsconfig.json
+quartz/quartz.config.default.yaml
+quartz/quartz.styles.scss
