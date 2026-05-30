@@ -28,7 +28,7 @@
  *   node scripts/atlas.mjs --json              # print atlas.json to stdout
  *   node scripts/atlas.mjs --cache             # reuse cached fork list if <24h old
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, readdirSync, unlinkSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -46,6 +46,7 @@ const OUT_INNOVATIONS = resolve(ROOT, "docs/innovations.md");
 const OUT_DISABLED_DEFAULTS = resolve(ROOT, "docs/disabled-defaults.md");
 const OUT_ECOSYSTEM = resolve(ROOT, "docs/ecosystem.md");
 const OUT_SKILL_PACKS = resolve(ROOT, "docs/skill-packs.md");
+const QUARTZ_CONTENT = resolve(ROOT, "quartz/content");
 const CACHE_DIR = resolve(ROOT, ".atlas-cache");
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -661,6 +662,228 @@ function renderSkillPacks(graph) {
   return out;
 }
 
+// ── Quartz content generator ───────────────────────────────────────────────
+// Writes one markdown file per entity into quartz/content/<category>/<slug>.md
+// with wikilinks to related entities. Quartz indexes wikilinks → graph edges,
+// so the natural relationships in atlas.json become the graph the operator
+// browses at /universe/.
+function slugify(s) {
+  return (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function forkSlug(fullName) {
+  // owner/repo → owner-repo (slashes aren't valid in filenames)
+  return fullName.replace(/\//g, "-");
+}
+
+function escapeYamlString(s) {
+  // YAML frontmatter — quote anything that contains chars YAML would interpret.
+  return '"' + (s || "").replace(/"/g, '\\"').replace(/\n/g, " ") + '"';
+}
+
+function writeUniverseContent(graph) {
+  // Wipe & recreate so deletions in atlas.json don't leave stale notes behind.
+  const subs = ["forks", "ecosystem", "packs", "novel-skills"];
+  for (const sub of subs) {
+    const dir = resolve(QUARTZ_CONTENT, sub);
+    if (existsSync(dir)) {
+      for (const f of readdirSyncSafe(dir)) unlinkSyncSafe(resolve(dir, f));
+    } else {
+      mkdirSync(dir, { recursive: true });
+    }
+  }
+
+  const upstreamNode = graph.nodes.find((n) => n.isRoot);
+  const upstreamSlug = upstreamNode ? forkSlug(upstreamNode.id) : null;
+  const matchedForkIdsByProject = new Map(
+    (graph.ecosystemProjects || []).filter((p) => p.matchedFork).map((p) => [p.matchedFork, p]),
+  );
+  const packsByAuthorFork = new Map();
+  for (const p of graph.skillPacks || []) {
+    if (!p.authorFork) continue;
+    if (!packsByAuthorFork.has(p.authorFork)) packsByAuthorFork.set(p.authorFork, []);
+    packsByAuthorFork.get(p.authorFork).push(p);
+  }
+  const novelByFork = new Map(
+    (graph.innovationsByFork || []).map((f) => [f.fork, f.novel]),
+  );
+  // Only render novel-skill notes for skills that spread to ≥ 2 forks — singletons
+  // create lots of orphan nodes that bloat the graph without informing it.
+  const spreadingNovel = (graph.innovationsBySkill || []).filter((s) => s.count >= 2);
+  const spreadingNovelSet = new Set(spreadingNovel.map((s) => s.slug));
+
+  // ── forks ────────────────────────────────────────────────────────────────
+  for (const n of graph.nodes) {
+    const slug = forkSlug(n.id);
+    const lines = [
+      `---`,
+      `title: ${escapeYamlString(n.id)}`,
+      `tags: [fork${n.isRoot ? ", upstream" : ""}${n.archived ? ", archived" : ""}]`,
+      `stars: ${n.stars}`,
+      `pushed: "${(n.pushedAt || "").slice(0, 10)}"`,
+      `enabled_skills: ${n.skillCount || 0}`,
+      `shipped_skills: ${(n.shippedSkills || []).length}`,
+      `---`,
+      ``,
+      `# ${n.id}${n.isRoot ? " *(upstream)*" : ""}`,
+      ``,
+      n.description ? n.description : "_(no description)_",
+      ``,
+      `[Repository on GitHub](${n.htmlUrl})`,
+      ``,
+      `- **★** ${n.stars}`,
+      `- **Last push:** ${(n.pushedAt || "").slice(0, 10)}`,
+      `- **Default branch:** \`${n.defaultBranch}\``,
+      `- **Enabled skills in \`aeon.yml\`:** ${n.skillCount || 0}`,
+      `- **Skills shipped in \`skills/\`:** ${(n.shippedSkills || []).length}`,
+    ];
+
+    // Parent fork
+    if (n.parentFullName && !n.isRoot) {
+      lines.push(``, `## Parent`, ``, `- [[forks/${forkSlug(n.parentFullName)}|${n.parentFullName}]]`);
+    }
+
+    // Ecosystem project this fork is identified as
+    if (matchedForkIdsByProject.has(n.id)) {
+      const p = matchedForkIdsByProject.get(n.id);
+      lines.push(``, `## Ecosystem identity`, ``, `- [[ecosystem/${slugify(p.name)}|${p.name}]]`);
+    }
+
+    // Skill packs authored by this fork's owner
+    if (packsByAuthorFork.has(n.id)) {
+      lines.push(``, `## Authored skill pack(s)`);
+      lines.push(``);
+      for (const p of packsByAuthorFork.get(n.id)) {
+        lines.push(`- [[packs/${slugify(p.repo)}|${p.name}]]`);
+      }
+    }
+
+    // Novel skills this fork ships (only the spreading ones get notes)
+    const novel = (novelByFork.get(n.id) || []).filter((s) => spreadingNovelSet.has(s));
+    if (novel.length > 0) {
+      lines.push(``, `## Novel skills shipped (spread to ≥ 2 forks)`);
+      lines.push(``);
+      for (const s of novel) lines.push(`- [[novel-skills/${slugify(s)}|${s}]]`);
+    }
+
+    writeFileSync(resolve(QUARTZ_CONTENT, "forks", `${slug}.md`), lines.join("\n") + "\n");
+  }
+
+  // ── ecosystem ────────────────────────────────────────────────────────────
+  for (const p of graph.ecosystemProjects || []) {
+    const slug = slugify(p.name);
+    const lines = [
+      `---`,
+      `title: ${escapeYamlString(p.name)}`,
+      `tags: [ecosystem${p.matchedFork ? ", matched" : ", unmatched"}]`,
+      `---`,
+      ``,
+      `# ${p.name}`,
+      ``,
+      `Project listed in upstream's [ECOSYSTEM.md](https://github.com/${graph.upstream}/blob/main/ECOSYSTEM.md) as building on Aeon.`,
+      ``,
+    ];
+    if (p.links && p.links.length) {
+      lines.push(`## Links`, ``);
+      for (const l of p.links) lines.push(`- [${l.label}](${l.url})`);
+    }
+    if (p.matchedFork) {
+      lines.push(``, `## Public fork`, ``, `- [[forks/${forkSlug(p.matchedFork)}|${p.matchedFork}]]`);
+    } else {
+      lines.push(``, `_(no known public fork — runs privately or uses non-obvious owner name)_`);
+    }
+    writeFileSync(resolve(QUARTZ_CONTENT, "ecosystem", `${slug}.md`), lines.join("\n") + "\n");
+  }
+
+  // ── packs ────────────────────────────────────────────────────────────────
+  for (const p of graph.skillPacks || []) {
+    const slug = slugify(p.repo);
+    const lines = [
+      `---`,
+      `title: ${escapeYamlString(p.name)}`,
+      `tags: [skill-pack, ${p.category || "uncategorized"}, ${p.trust_level || "community"}]`,
+      `author: ${escapeYamlString(p.author)}`,
+      `---`,
+      ``,
+      `# ${p.name}`,
+      ``,
+      p.description || "",
+      ``,
+      `[Pack repository](https://github.com/${p.repo})`,
+      ``,
+      `- **Author:** ${p.author}`,
+      `- **Category:** ${p.category || "—"}`,
+      `- **Trust level:** ${p.trust_level || "—"}`,
+      `- **License:** ${p.license || "—"}`,
+      `- **Skills shipped:** ${(p.skills || []).length}`,
+    ];
+    if (p.authorFork) {
+      lines.push(``, `## Author's fork`, ``, `- [[forks/${forkSlug(p.authorFork)}|${p.authorFork}]]`);
+    }
+    if (p.skills && p.skills.length) {
+      lines.push(``, `## Skills in this pack`, ``);
+      for (const s of p.skills) {
+        const target = spreadingNovelSet.has(s) ? `[[novel-skills/${slugify(s)}|${s}]]` : `\`${s}\``;
+        lines.push(`- ${target}`);
+      }
+    }
+    writeFileSync(resolve(QUARTZ_CONTENT, "packs", `${slug}.md`), lines.join("\n") + "\n");
+  }
+
+  // ── novel skills (only spreading ones) ──────────────────────────────────
+  for (const s of spreadingNovel) {
+    const slug = slugify(s.slug);
+    const lines = [
+      `---`,
+      `title: ${escapeYamlString(s.slug)}`,
+      `tags: [novel-skill]`,
+      `adoption: ${s.count}`,
+      `---`,
+      ``,
+      `# \`${s.slug}\``,
+      ``,
+      `Custom skill shipped by ${s.count} fork${s.count === 1 ? "" : "s"}. Not present in upstream \`${graph.upstream}/skills/\` — strong candidate for upstream contribution.`,
+      ``,
+      `## Forks shipping this`,
+      ``,
+    ];
+    for (const fork of s.forks) lines.push(`- [[forks/${forkSlug(fork)}|${fork}]]`);
+    writeFileSync(resolve(QUARTZ_CONTENT, "novel-skills", `${slug}.md`), lines.join("\n") + "\n");
+  }
+
+  // ── index ────────────────────────────────────────────────────────────────
+  const indexLines = [
+    `---`,
+    `title: Aeon Atlas — Universe`,
+    `---`,
+    ``,
+    `# Aeon Atlas — Universe`,
+    ``,
+    `Every entity in the aeon ecosystem we know about, rendered as one navigable graph.`,
+    ``,
+    `Click the graph icon in the corner to open the global view (every node + edge), or browse via these starting points:`,
+    ``,
+    `- **${graph.nodes.length} forks** of [\`${graph.upstream}\`](https://github.com/${graph.upstream}) — sample: [[forks/${upstreamSlug}|upstream]]`,
+    `- **${(graph.ecosystemProjects || []).length} ecosystem projects** publicly identifying as built on Aeon`,
+    `- **${(graph.skillPacks || []).length} community skill packs** in the installable registry`,
+    `- **${spreadingNovel.length} novel skills** shipped by ≥ 2 forks (i.e. spreading outside upstream)`,
+    ``,
+    `## How edges form`,
+    ``,
+    `Every wikilink in these notes becomes a graph edge. A fork links to its parent fork, its matched ecosystem project, its authored pack, and the novel skills it ships. Ecosystem projects and packs link back. Open the graph view in the top-right corner.`,
+    ``,
+    `## Source data`,
+    ``,
+    `Generated by \`scripts/atlas.mjs\` from \`atlas.json\` on ${graph.generatedAt.slice(0, 10)}. The same data backs the [interactive Cytoscape map](../atlas.html), the [ecosystem digest](../ecosystem/), the [packs page](../skill-packs/), the [innovations report](../innovations/), and the [disabled-defaults audit](../disabled-defaults/).`,
+  ];
+  writeFileSync(resolve(QUARTZ_CONTENT, "index.md"), indexLines.join("\n") + "\n");
+}
+
+// readdirSync that tolerates missing dirs (returns []) and unlinkSync that
+// tolerates missing files. Wipe-and-recreate uses these to avoid stale notes.
+function readdirSyncSafe(dir) { try { return readdirSync(dir); } catch { return []; } }
+function unlinkSyncSafe(file) { try { unlinkSync(file); } catch {} }
+
 function renderHtml(graph) {
   const json = safeJsonForScript(graph);
   return `<!doctype html>
@@ -869,6 +1092,10 @@ function main() {
   writeFileSync(OUT_DISABLED_DEFAULTS, renderDisabledDefaults(graph));
   writeFileSync(OUT_ECOSYSTEM, renderEcosystem(graph));
   writeFileSync(OUT_SKILL_PACKS, renderSkillPacks(graph));
+  // Quartz-content emit is optional — only writes if the quartz/ subdirectory
+  // exists (i.e. the operator has set up Quartz locally). Keeps the script
+  // usable on installs without the Quartz toolchain.
+  if (existsSync(resolve(ROOT, "quartz"))) writeUniverseContent(graph);
 
   const s = graph.stats;
   console.log(`\natlas: ${s.repos} repos · ${s.withAeonYml} with aeon.yml · ${s.forkEdges} fork edges · ${s.skillEdges} skill-overlap edges · ${s.totalStars} ★`);
@@ -884,6 +1111,7 @@ function main() {
   console.log(`  wrote docs/disabled-defaults.md`);
   console.log(`  wrote docs/ecosystem.md`);
   console.log(`  wrote docs/skill-packs.md`);
+  if (existsSync(resolve(ROOT, "quartz"))) console.log(`  wrote quartz/content/{forks,ecosystem,packs,novel-skills}/*.md`);
 }
 
 main();

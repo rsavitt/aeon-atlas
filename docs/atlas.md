@@ -31,15 +31,15 @@ Interactive map: [`atlas.html`](./atlas.html).
 
 | Repo | Last push | ★ |
 |---|---|---:|
+| [anomit/aeon](https://github.com/anomit/aeon) | 2026-05-30 | 0 |
+| [rsavitt/aeon-atlas](https://github.com/rsavitt/aeon-atlas) | 2026-05-30 | 0 |
+| [enzoonchain/aeon](https://github.com/enzoonchain/aeon) | 2026-05-30 | 0 |
 | [taekwonv89/aeon](https://github.com/taekwonv89/aeon) | 2026-05-30 | 0 |
 | [pezetel/aeon](https://github.com/pezetel/aeon) | 2026-05-30 | 0 |
-| [rsavitt/aeon-atlas](https://github.com/rsavitt/aeon-atlas) | 2026-05-30 | 0 |
 | [VibeSan7/aeon](https://github.com/VibeSan7/aeon) | 2026-05-30 | 0 |
 | [youpsla/aeon](https://github.com/youpsla/aeon) | 2026-05-30 | 0 |
-| [anomit/aeon](https://github.com/anomit/aeon) | 2026-05-30 | 0 |
 | [damo-nu11/aeon-minebean](https://github.com/damo-nu11/aeon-minebean) | 2026-05-30 | 0 |
 | [lawbworld-tech/aeon](https://github.com/lawbworld-tech/aeon) | 2026-05-30 | 0 |
-| [enzoonchain/aeon](https://github.com/enzoonchain/aeon) | 2026-05-30 | 0 |
 | [antfleet-ops/aeon](https://github.com/antfleet-ops/aeon) | 2026-05-30 | 0 |
 
 ## Most-enabled skills across forks
