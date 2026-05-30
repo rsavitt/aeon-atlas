@@ -85,42 +85,55 @@ function ghRaw(repoFullName, ref, path) {
 
 // ── enumerate forks (depth-limited BFS) ───────────────────────────────────
 function fetchAllForks(rootRepo, depth) {
-  const visited = new Map();
+  // Two structures: `found` carries metadata for every repo discovered;
+  // `enumerated` tracks which repos have already had their child fork list
+  // fetched. Previously the same `visited` map served both roles, which made
+  // the BFS skip enumeration of any level-1 fork (because the parent had
+  // already recorded its metadata before we got to enumerate it). Separating
+  // the two lets us discover-once / enumerate-once independently.
+  const found = new Map();
+  const enumerated = new Set();
+  found.set(rootRepo, { fullName: rootRepo, level: 0, isRoot: true });
   const queue = [{ repo: rootRepo, level: 0 }];
   while (queue.length) {
     const { repo, level } = queue.shift();
-    if (visited.has(repo)) continue;
-    // Mark the upstream too so we can skip it in fork lists.
-    visited.set(repo, { fullName: repo, level, isRoot: level === 0 });
+    if (enumerated.has(repo)) continue;
+    enumerated.add(repo);
     if (level >= depth) continue;
     let page = 1;
     while (true) {
       const forks = ghApi(`/repos/${repo}/forks?per_page=100&sort=newest&page=${page}`);
       if (!Array.isArray(forks) || forks.length === 0) break;
       for (const f of forks) {
-        if (visited.has(f.full_name)) continue;
-        visited.set(f.full_name, {
-          fullName: f.full_name,
-          owner: f.owner.login,
-          name: f.name,
-          stars: f.stargazers_count,
-          forks: f.forks_count,
-          pushedAt: f.pushed_at,
-          defaultBranch: f.default_branch,
-          parentFullName: repo,
-          private: f.private,
-          archived: f.archived,
-          description: f.description || "",
-          htmlUrl: f.html_url,
-          level: level + 1,
-        });
-        if (level + 1 < depth) queue.push({ repo: f.full_name, level: level + 1 });
+        if (!found.has(f.full_name)) {
+          found.set(f.full_name, {
+            fullName: f.full_name,
+            owner: f.owner.login,
+            name: f.name,
+            stars: f.stargazers_count,
+            forks: f.forks_count,
+            pushedAt: f.pushed_at,
+            defaultBranch: f.default_branch,
+            parentFullName: repo,
+            private: f.private,
+            archived: f.archived,
+            description: f.description || "",
+            htmlUrl: f.html_url,
+            level: level + 1,
+          });
+        }
+        // Enumerate this fork's children only if we haven't yet and we still
+        // have depth budget. level+1 < depth means "the children we'd find
+        // are within the depth cap." (depth=1 → only enumerate at level 0.)
+        if (level + 1 < depth && !enumerated.has(f.full_name)) {
+          queue.push({ repo: f.full_name, level: level + 1 });
+        }
       }
       if (forks.length < 100) break;
       page++;
     }
   }
-  return [...visited.values()];
+  return [...found.values()];
 }
 
 // ── parse aeon.yml → list of enabled skills ────────────────────────────────
