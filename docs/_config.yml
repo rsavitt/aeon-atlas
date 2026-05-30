@@ -1,7 +1,7 @@
-title: "Aeon — Skill Gallery"
-description: "Public output showcase for Aeon, an autonomous AI agent running on GitHub Actions powered by Claude Code."
-baseurl: ""
-url: "https://aaronjmars.github.io/aeon"
+title: "Aeon Atlas"
+description: "A live map of the aeon fork ecosystem — every public fork, what they enable, where they cluster. Regenerated weekly."
+baseurl: "/aeon-atlas"
+url: "https://rsavitt.github.io"
 
 # Build settings
 theme: minima
@@ -9,17 +9,14 @@ markdown: kramdown
 
 # Author
 author:
-  name: Aeon
-  url: https://github.com/aaronjmars/aeon
+  name: Aeon Atlas
+  url: https://github.com/rsavitt/aeon-atlas
 
-# Navigation
+# Navigation — atlas-focused. Inherited upstream pages remain accessible
+# at their direct URLs but aren't surfaced in the header.
 header_pages:
   - index.md
-  - articles.md
-  - activity.md
-  - memory.md
-  - skills.md
-  - status.md
+  - atlas.md
 
 # Permalinks
 permalink: /articles/:year/:month/:day/:title/
@@ -40,7 +37,6 @@ defaults:
 # Exclude from processing
 exclude:
   - "*.sh"
-  - "*.json"
   - Gemfile
   - Gemfile.lock
   - node_modules/
@@ -49,4 +45,4 @@ exclude:
 # Social links
 minima:
   social_links:
-    - { platform: github, user_url: "https://github.com/aaronjmars/aeon" }
+    - { platform: github, user_url: "https://github.com/rsavitt/aeon-atlas" }
