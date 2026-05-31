@@ -72,3 +72,7 @@ quartz/README.md
 quartz/tsconfig.json
 quartz/quartz.config.default.yaml
 quartz/quartz.styles.scss
+
+# Playwright browser cache
+node_modules/
+.playwright/

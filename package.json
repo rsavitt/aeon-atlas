@@ -1,0 +1,13 @@
+{
+  "name": "aeon-atlas-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Repo-root scripts (atlas tooling, screenshots). The Quartz site has its own package.json under quartz/.",
+  "scripts": {
+    "screenshot": "node scripts/screenshot-universe.mjs",
+    "screenshot:all": "node scripts/screenshot-universe.mjs --all"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}
