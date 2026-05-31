@@ -26,3 +26,4 @@ vvvkernel skills
 ## Authored skill pack(s)
 
 - [[packs/baseddevoloper-aeon-skill-pack-vvvkernel|aeon-skill-pack-vvvkernel]]
+- [[packs/baseddevoloper-aeon-skill-pack-vvvkernel|aeon-skill-pack-vvvkernel]]

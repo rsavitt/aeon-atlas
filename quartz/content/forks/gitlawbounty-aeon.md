@@ -30,3 +30,4 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 ## Authored skill pack(s)
 
 - [[packs/gitlawbounty-gitbounty-skill-pack|GitBounty Skill Pack]]
+- [[packs/gitlawbounty-gitbounty-skill-pack|GitBounty Skill Pack]]

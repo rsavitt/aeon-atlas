@@ -9,7 +9,7 @@ Project listed in upstream's [ECOSYSTEM.md](https://github.com/aaronjmars/aeon/b
 
 ## Links
 
-- [@helloamper](https://x.com/helloamper)
+- [@ampera_xyze](https://x.com/ampera_xyze)
 
 ## Public fork
 

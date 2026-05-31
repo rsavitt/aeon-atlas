@@ -30,3 +30,4 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 ## Authored skill pack(s)
 
 - [[packs/liquidpadbot-aeon-skill-pack-liquidpad|LiquidPad]]
+- [[packs/liquidpadbot-aeon-skill-pack-liquidpad|LiquidPad]]

@@ -1,6 +1,6 @@
 ---
 title: "GitBounty"
-tags: [ecosystem, matched]
+tags: [ecosystem, unmatched]
 ---
 
 # GitBounty
@@ -9,8 +9,6 @@ Project listed in upstream's [ECOSYSTEM.md](https://github.com/aaronjmars/aeon/b
 
 ## Links
 
-- [@Gitlawbounty](https://x.com/Gitlawbounty)
+- [@Git_Bounty](https://x.com/Git_Bounty)
 
-## Public fork
-
-- [[forks/gitlawbounty-aeon|gitlawbounty/aeon]]
+_(no known public fork — runs privately or uses non-obvious owner name)_

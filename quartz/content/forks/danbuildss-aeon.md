@@ -26,3 +26,4 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 ## Authored skill pack(s)
 
 - [[packs/danbuildss-luca-aeon-skills|luca-aeon-skills]]
+- [[packs/danbuildss-luca-aeon-skills|luca-aeon-skills]]

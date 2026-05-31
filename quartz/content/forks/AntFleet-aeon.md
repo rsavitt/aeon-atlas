@@ -30,3 +30,4 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 ## Authored skill pack(s)
 
 - [[packs/antfleet-aeon-skills|AntFleet aeon-skills]]
+- [[packs/antfleet-aeon-skills|AntFleet aeon-skills]]

@@ -2,7 +2,7 @@
 title: "pezetel/aeon"
 tags: [fork]
 stars: 0
-pushed: "2026-05-30"
+pushed: "2026-05-31"
 enabled_skills: 2
 shipped_skills: 100
 ---
@@ -14,7 +14,7 @@ Background intelligence that evolves with you
 [Repository on GitHub](https://github.com/pezetel/aeon)
 
 - **★** 0
-- **Last push:** 2026-05-30
+- **Last push:** 2026-05-31
 - **Default branch:** `main`
 - **Enabled skills in `aeon.yml`:** 2
 - **Skills shipped in `skills/`:** 100
