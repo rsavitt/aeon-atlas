@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/damo-nu11|damo-nu11]]
+
 ## Ecosystem identity
 
 - [[ecosystem/bean|Bean]]

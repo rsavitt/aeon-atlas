@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/danbuildss|danbuildss]]
+
 ## Authored skill pack(s)
 
 - [[packs/danbuildss-luca-aeon-skills|luca-aeon-skills]]

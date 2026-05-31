@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/noelclaw|noelclaw]]
+
 ## Ecosystem identity
 
 - [[ecosystem/noelclaw|NoelClaw]]

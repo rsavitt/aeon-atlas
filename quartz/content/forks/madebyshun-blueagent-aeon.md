@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/madebyshun|madebyshun]]
+
 ## Ecosystem identity
 
 - [[ecosystem/blue-agent|Blue Agent]]

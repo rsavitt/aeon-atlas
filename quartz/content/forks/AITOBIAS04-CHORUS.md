@@ -22,3 +22,7 @@ Public agent automation of miroshark
 ## Parent
 
 - [[forks/aaronjmars-miroshark-aeon|aaronjmars/miroshark-aeon]]
+
+## Operator
+
+- [[operators/aitobias04|AITOBIAS04]]

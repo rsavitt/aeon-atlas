@@ -9,6 +9,7 @@ Every entity in the aeon ecosystem we know about, rendered as one navigable grap
 Click the graph icon in the corner to open the global view (every node + edge), or browse via these starting points:
 
 - **148 forks** of [`aaronjmars/aeon`](https://github.com/aaronjmars/aeon) — sample: [[forks/aaronjmars-aeon|upstream]]
+- **16 operators** with ≥ 2 atlas artifacts (multi-fork or fork+pack/ecosystem)
 - **50 ecosystem projects** publicly identifying as built on Aeon
 - **16 community skill packs** in the installable registry
 - **4 novel skills** shipped by ≥ 2 forks (i.e. spreading outside upstream)

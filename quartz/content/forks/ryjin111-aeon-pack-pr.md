@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/ryjin111|ryjin111]]
+
 ## Authored skill pack(s)
 
 - [[packs/ryjin111-aeon-skill-pack-mythosforge|aeon-skill-pack-mythosforge]]

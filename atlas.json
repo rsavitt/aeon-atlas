@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T16:36:00.632Z",
+  "generatedAt": "2026-05-31T17:10:34.367Z",
   "upstreams": [
     "aaronjmars/aeon",
     "aaronjmars/aeon-agent",
@@ -41,7 +41,8 @@
     "ecosystemMatched": 10,
     "skillPacks": 16,
     "skillPacksWithFork": 14,
-    "forksNotPubliclyListed": 132
+    "forksNotPubliclyListed": 132,
+    "operators": 16
   },
   "skillPopularity": [
     {
@@ -29172,6 +29173,152 @@
         "aaronjmars/aeon"
       ],
       "authorFork": null
+    }
+  ],
+  "operators": [
+    {
+      "owner": "sparkleware",
+      "footprint": 40,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 7,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "AntFleet",
+      "footprint": 12,
+      "forks": 2,
+      "totalStars": 0,
+      "packs": 1,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "liquidpadbot",
+      "footprint": 11,
+      "forks": 1,
+      "totalStars": 1,
+      "packs": 1,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "gitlawbounty",
+      "footprint": 11,
+      "forks": 1,
+      "totalStars": 1,
+      "packs": 1,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "noelclaw",
+      "footprint": 10,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 1,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "NoctelXBT",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "ryjin111",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 1,
+      "ecosystem": 0,
+      "novelSkills": 0
+    },
+    {
+      "owner": "lawbworld-tech",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "happycamper-stix",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "danbuildss",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 1,
+      "ecosystem": 0,
+      "novelSkills": 0
+    },
+    {
+      "owner": "damo-nu11",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "baseddevoloper",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 1,
+      "ecosystem": 0,
+      "novelSkills": 0
+    },
+    {
+      "owner": "madebyshun",
+      "footprint": 5,
+      "forks": 1,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 1,
+      "novelSkills": 0
+    },
+    {
+      "owner": "aaronjmars",
+      "footprint": 4,
+      "forks": 3,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 0,
+      "novelSkills": 0
+    },
+    {
+      "owner": "We3In",
+      "footprint": 4,
+      "forks": 3,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 0,
+      "novelSkills": 0
+    },
+    {
+      "owner": "AITOBIAS04",
+      "footprint": 2,
+      "forks": 2,
+      "totalStars": 0,
+      "packs": 0,
+      "ecosystem": 0,
+      "novelSkills": 0
     }
   ]
 }

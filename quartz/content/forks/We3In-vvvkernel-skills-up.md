@@ -22,3 +22,7 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 ## Parent
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
+
+## Operator
+
+- [[operators/we3in|We3In]]

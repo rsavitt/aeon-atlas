@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/noctelxbt|NoctelXBT]]
+
 ## Ecosystem identity
 
 - [[ecosystem/noctel|Noctel]]

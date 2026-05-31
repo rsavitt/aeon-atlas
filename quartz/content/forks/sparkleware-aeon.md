@@ -23,6 +23,10 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/sparkleware|sparkleware]]
+
 ## Ecosystem identity
 
 - [[ecosystem/sparkleware|Sparkleware]]

@@ -23,6 +23,10 @@ vvvkernel skills
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
 
+## Operator
+
+- [[operators/baseddevoloper|baseddevoloper]]
+
 ## Authored skill pack(s)
 
 - [[packs/baseddevoloper-aeon-skill-pack-vvvkernel|aeon-skill-pack-vvvkernel]]
