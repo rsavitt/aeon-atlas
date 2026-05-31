@@ -6,12 +6,20 @@ This repo is a fork of [`aaronjmars/aeon`](https://github.com/aaronjmars/aeon) w
 
 For what aeon itself is, see [the upstream README](https://github.com/aaronjmars/aeon).
 
+## Demo
+
+<video src="https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4" controls muted loop playsinline width="100%"></video>
+
+> Quartz graph of the fork ecosystem — three clusters, one per upstream root (`aeon`, `aeon-agent`, `miroshark-aeon`), connected by skill-overlap edges. Interactive version at **[swarm-ai-safety.github.io/aeon-atlas/universe/](https://swarm-ai-safety.github.io/aeon-atlas/universe/)**. Re-record with `node scripts/screenshot-universe.mjs --video --theme dark`.
+
 ## What you get
 
 | Artifact | What it shows |
 |---|---|
+| [`/universe/`](https://swarm-ai-safety.github.io/aeon-atlas/universe/) | Quartz-rendered graph + per-entity notes for every fork, ecosystem project, skill pack, and novel skill. Backlinks + tag clusters + global graph view. |
 | [`docs/atlas.html`](docs/atlas.html) | Interactive Cytoscape map. Fork tree, colored by recent activity. Click any node for its enabled-skill list, ★, last-push date. |
 | [`docs/atlas.md`](docs/atlas.md) | Readable digest — top forks by ★, most-active recent pushes, most-enabled skills across the fleet, strongest customization-overlap pairs. |
+| [`docs/whats-new.md`](docs/whats-new.md) | Diff vs the most recent prior `history/` snapshot — new/removed forks, ★ movers, new novel skills, ecosystem additions, activity transitions. |
 | [`atlas.json`](atlas.json) | Machine-readable: nodes (repos with metadata), edges (`fork-of` + `skill-overlap`), per-skill popularity. |
 
 ## How it builds the graph
