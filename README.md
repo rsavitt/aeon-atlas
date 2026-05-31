@@ -8,9 +8,9 @@ For what aeon itself is, see [the upstream README](https://github.com/aaronjmars
 
 ## Demo
 
-<video src="https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4" controls muted loop playsinline width="100%"></video>
+[![Quartz universe graph](docs/assets/universe-graph-dark.png)](https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4)
 
-> Quartz graph of the fork ecosystem — three clusters, one per upstream root (`aeon`, `aeon-agent`, `miroshark-aeon`), connected by skill-overlap edges. Interactive version at **[swarm-ai-safety.github.io/aeon-atlas/universe/](https://swarm-ai-safety.github.io/aeon-atlas/universe/)**. Re-record with `node scripts/screenshot-universe.mjs --video --theme dark`.
+> Quartz graph of the fork ecosystem — three clusters, one per upstream root (`aeon`, `aeon-agent`, `miroshark-aeon`), connected by skill-overlap edges. **Click the still for the [10-second physics animation](https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4)** ([light version](https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-light.mp4)). Interactive version at **[swarm-ai-safety.github.io/aeon-atlas/universe/](https://swarm-ai-safety.github.io/aeon-atlas/universe/)**. Re-record with `node scripts/screenshot-universe.mjs --video --theme dark`.
 
 ## What you get
 
