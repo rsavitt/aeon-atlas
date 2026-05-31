@@ -2,7 +2,7 @@
 title: "damo-nu11/aeon-minebean"
 tags: [fork]
 stars: 0
-pushed: "2026-05-30"
+pushed: "2026-05-31"
 enabled_skills: 2
 shipped_skills: 121
 ---
@@ -14,7 +14,7 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 [Repository on GitHub](https://github.com/damo-nu11/aeon-minebean)
 
 - **★** 0
-- **Last push:** 2026-05-30
+- **Last push:** 2026-05-31
 - **Default branch:** `main`
 - **Enabled skills in `aeon.yml`:** 2
 - **Skills shipped in `skills/`:** 121

@@ -34,7 +34,14 @@ import { fileURLToPath } from "node:url";
 import { execFileSync, spawnSync } from "node:child_process";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const DEFAULT_UPSTREAM = "aaronjmars/aeon";
+// Atlas is multi-root. Each upstream is enumerated independently (own fork
+// tree, own ECOSYSTEM.md and skill-packs.json if present, own enabled-skill
+// baseline for delta computation). The resulting graph is the union.
+const DEFAULT_UPSTREAMS = [
+  "aaronjmars/aeon",
+  "aaronjmars/aeon-agent",
+  "aaronjmars/miroshark-aeon",
+];
 // Outputs live under docs/ so GitHub Pages serves them at their natural URLs.
 // docs/atlas.json is the public machine-readable artifact; we ALSO keep a
 // copy at repo root for backward-compat with tools that already point there.
@@ -68,15 +75,21 @@ function safeJsonForScript(value) {
 
 // ── argv ───────────────────────────────────────────────────────────────────
 function parseArgv(argv) {
-  const opts = { upstream: DEFAULT_UPSTREAM, depth: 1, json: false, cache: false };
+  // `--upstream owner/repo` may be repeated, or passed comma-separated. If
+  // omitted entirely, the DEFAULT_UPSTREAMS list above is used.
+  const opts = { upstreams: [], depth: 1, json: false, cache: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--upstream") opts.upstream = argv[++i];
+    if (a === "--upstream") {
+      const v = argv[++i] || "";
+      for (const s of v.split(",")) if (s.trim()) opts.upstreams.push(s.trim());
+    }
     else if (a === "--depth") opts.depth = Number(argv[++i]);
     else if (a === "--json") opts.json = true;
     else if (a === "--cache") opts.cache = true;
     else if (a === "-h" || a === "--help") opts.help = true;
   }
+  if (opts.upstreams.length === 0) opts.upstreams = [...DEFAULT_UPSTREAMS];
   return opts;
 }
 
@@ -216,6 +229,26 @@ function matchEcosystemToFork(project, nodes) {
   return best && best.score >= 2 ? best.id : null;
 }
 
+// Multi-root entrypoint: enumerate forks of each upstream independently and
+// tag every node with the root it descends from. Same node showing up under
+// two different roots is theoretically possible (cross-network fork) — the
+// first root we process claims it, subsequent roots see it in `globalFound`
+// and skip re-recording (would otherwise change parent/level).
+function fetchAllForksMulti(upstreams, depth) {
+  const all = [];
+  const globalFound = new Set();
+  for (const root of upstreams) {
+    const nodes = fetchAllForks(root, depth);
+    for (const n of nodes) {
+      if (globalFound.has(n.fullName)) continue;
+      globalFound.add(n.fullName);
+      n.root = root; // which upstream tree this node descends from
+      all.push(n);
+    }
+  }
+  return all;
+}
+
 // ── enumerate forks (depth-limited BFS) ───────────────────────────────────
 function fetchAllForks(rootRepo, depth) {
   // Two structures: `found` carries metadata for every repo discovered;
@@ -297,7 +330,10 @@ function parseEnabledSkills(yaml) {
 
 // ── build graph ────────────────────────────────────────────────────────────
 function buildGraph(repos) {
-  // Nodes: every repo, with metadata
+  // Nodes: every repo, with metadata. The `root` field on each node tells us
+  // which upstream tree it descends from — used everywhere downstream that
+  // previously assumed a single root (delta computation, innovations,
+  // disabled-defaults audits, etc.).
   const nodes = repos.map((r) => ({
     id: r.fullName,
     label: r.fullName,
@@ -309,6 +345,7 @@ function buildGraph(repos) {
     defaultBranch: r.defaultBranch,
     parentFullName: r.parentFullName,
     isRoot: !!r.isRoot,
+    root: r.root || (r.isRoot ? r.fullName : null), // which upstream tree
     level: r.level,
     archived: !!r.archived,
     description: r.description || "",
@@ -318,6 +355,8 @@ function buildGraph(repos) {
     shippedSkills: r.shippedSkills || [],
   }));
   const byId = new Map(nodes.map((n) => [n.id, n]));
+  const roots = nodes.filter((n) => n.isRoot);
+  const rootById = new Map(roots.map((n) => [n.id, n]));
 
   const edges = [];
   // fork-of edges
@@ -326,46 +365,47 @@ function buildGraph(repos) {
       edges.push({ source: n.id, target: n.parentFullName, kind: "fork-of", weight: 1.0 });
     }
   }
-  // Skill-overlap edges — surface forks that made *similar customizations*,
-  // not forks that simply cloned the upstream baseline. We compute jaccard
-  // on each fork's delta from upstream (skills it enabled that upstream did
-  // not, and vice versa). Top-K per fork to keep density bounded.
-  const upstreamNode = nodes.find((n) => n.isRoot);
-  const upstreamSkills = new Set(upstreamNode?.enabledSkills || []);
+
+  // Skill-overlap edges — surface forks that made *similar customizations*
+  // relative to THEIR specific root. Computed per-root (each root has its
+  // own enabled-skill baseline) but pairs are scored only within the same
+  // root's tree — cross-root overlap is rare and semantically muddier.
   const SIM_TOP_K = 4;
   const SIM_MIN = 0.30;
-  const delta = (set) => {
-    const d = new Set();
-    for (const s of set) if (!upstreamSkills.has(s)) d.add(`+${s}`);
-    for (const s of upstreamSkills) if (!set.has(s)) d.add(`-${s}`);
-    return d;
-  };
-  const nonRoot = nodes.filter((n) => !n.isRoot && n.skillCount > 0);
-  const deltas = new Map(nonRoot.map((n) => [n.id, delta(new Set(n.enabledSkills))]));
-  // perFork[i] = scored candidates [{target, score, shared}] for top-K selection
   const perFork = new Map();
-  for (let i = 0; i < nonRoot.length; i++) {
-    const aSet = deltas.get(nonRoot[i].id);
-    if (aSet.size === 0) continue; // vanilla fork — no customization to share
-    const scored = [];
-    for (let j = 0; j < nonRoot.length; j++) {
-      if (i === j) continue;
-      const bSet = deltas.get(nonRoot[j].id);
-      if (bSet.size === 0) continue;
-      let inter = 0;
-      for (const s of aSet) if (bSet.has(s)) inter++;
-      if (inter < 2) continue; // require at least 2 shared customizations
-      const union = aSet.size + bSet.size - inter;
-      const j2 = inter / union;
-      if (j2 < SIM_MIN) continue;
-      scored.push({
-        target: nonRoot[j].id,
-        score: Math.round(j2 * 1000) / 1000,
-        shared: [...aSet].filter((s) => bSet.has(s)).slice(0, 8),
-      });
+  for (const root of roots) {
+    const baseline = new Set(root.enabledSkills || []);
+    const delta = (set) => {
+      const d = new Set();
+      for (const s of set) if (!baseline.has(s)) d.add(`+${s}`);
+      for (const s of baseline) if (!set.has(s)) d.add(`-${s}`);
+      return d;
+    };
+    const nonRoot = nodes.filter((n) => !n.isRoot && n.root === root.id && n.skillCount > 0);
+    const deltas = new Map(nonRoot.map((n) => [n.id, delta(new Set(n.enabledSkills))]));
+    for (let i = 0; i < nonRoot.length; i++) {
+      const aSet = deltas.get(nonRoot[i].id);
+      if (aSet.size === 0) continue;
+      const scored = [];
+      for (let j = 0; j < nonRoot.length; j++) {
+        if (i === j) continue;
+        const bSet = deltas.get(nonRoot[j].id);
+        if (bSet.size === 0) continue;
+        let inter = 0;
+        for (const s of aSet) if (bSet.has(s)) inter++;
+        if (inter < 2) continue;
+        const union = aSet.size + bSet.size - inter;
+        const j2 = inter / union;
+        if (j2 < SIM_MIN) continue;
+        scored.push({
+          target: nonRoot[j].id,
+          score: Math.round(j2 * 1000) / 1000,
+          shared: [...aSet].filter((s) => bSet.has(s)).slice(0, 8),
+        });
+      }
+      scored.sort((a, b) => b.score - a.score);
+      perFork.set(nonRoot[i].id, scored.slice(0, SIM_TOP_K));
     }
-    scored.sort((a, b) => b.score - a.score);
-    perFork.set(nonRoot[i].id, scored.slice(0, SIM_TOP_K));
   }
   const seen = new Set();
   for (const [source, list] of perFork) {
@@ -377,29 +417,31 @@ function buildGraph(repos) {
     }
   }
 
-  // Skill popularity table: which skill is enabled in how many forks
+  // Skill popularity — global across all non-root forks (any root). A skill
+  // shipped widely by forks of multiple roots is an even stronger adoption
+  // signal than one only in a single root's tree.
   const skillPopularity = new Map();
   for (const n of nodes) {
-    if (n.isRoot) continue; // upstream baseline; not a "choice"
+    if (n.isRoot) continue;
     for (const s of n.enabledSkills) skillPopularity.set(s, (skillPopularity.get(s) || 0) + 1);
   }
 
-  // ── Innovations: skills present in a fork's skills/ tree but NOT upstream's.
-  // This is where actual code-level customization lives — the atlas was blind
-  // to this when it only parsed aeon.yml. Per-skill: which forks ship it;
-  // per-fork: which custom skills it carries.
-  const upstreamShipped = new Set(upstreamNode?.shippedSkills || []);
+  // ── Innovations: skills in a fork's skills/ tree that aren't in ITS root's.
+  // Per-root because each root ships a different skill set; a skill that's
+  // novel relative to aeon-agent might be vanilla relative to aeon.
+  const rootShippedById = new Map(roots.map((r) => [r.id, new Set(r.shippedSkills || [])]));
   const innovationsByFork = nodes
-    .filter((n) => !n.isRoot && n.shippedSkills.length > 0)
+    .filter((n) => !n.isRoot && n.shippedSkills.length > 0 && rootShippedById.has(n.root))
     .map((n) => ({
       fork: n.id,
+      root: n.root,
       stars: n.stars,
-      novel: n.shippedSkills.filter((s) => !upstreamShipped.has(s)),
+      novel: n.shippedSkills.filter((s) => !rootShippedById.get(n.root).has(s)),
     }))
     .filter((x) => x.novel.length > 0)
     .sort((a, b) => b.novel.length - a.novel.length);
 
-  const innovationsBySkill = new Map(); // slug → [forks shipping it]
+  const innovationsBySkill = new Map();
   for (const f of innovationsByFork) {
     for (const slug of f.novel) {
       if (!innovationsBySkill.has(slug)) innovationsBySkill.set(slug, []);
@@ -407,25 +449,33 @@ function buildGraph(repos) {
     }
   }
 
-  // ── Disabled-defaults audit: which skills does upstream ship enabled that
-  // forks systematically turn off? Counts and rates make the case for
-  // "these defaults are wrong" or "these defaults need a better explainer."
-  const upstreamEnabled = new Set(upstreamNode?.enabledSkills || []);
-  const forksWithYml = nodes.filter((n) => !n.isRoot && n.skillCount > 0);
-  const disabledDefaults = [...upstreamEnabled].map((slug) => {
-    const disablingForks = forksWithYml.filter((n) => !n.enabledSkills.includes(slug));
-    return {
-      slug,
-      disabledIn: disablingForks.length,
-      totalForksWithYml: forksWithYml.length,
-      disabledRate: forksWithYml.length > 0 ? Math.round((disablingForks.length / forksWithYml.length) * 1000) / 1000 : 0,
-    };
-  }).sort((a, b) => b.disabledRate - a.disabledRate);
+  // ── Disabled-defaults audit per root. Each root has different defaults;
+  // surface separately so the reader knows whose defaults are being rejected.
+  const disabledDefaults = [];
+  for (const root of roots) {
+    const upstreamEnabled = new Set(root.enabledSkills || []);
+    const forksWithYml = nodes.filter((n) => !n.isRoot && n.root === root.id && n.skillCount > 0);
+    for (const slug of upstreamEnabled) {
+      const disablingForks = forksWithYml.filter((n) => !n.enabledSkills.includes(slug));
+      disabledDefaults.push({
+        root: root.id,
+        slug,
+        disabledIn: disablingForks.length,
+        totalForksWithYml: forksWithYml.length,
+        disabledRate: forksWithYml.length > 0 ? Math.round((disablingForks.length / forksWithYml.length) * 1000) / 1000 : 0,
+      });
+    }
+  }
+  disabledDefaults.sort((a, b) => b.disabledRate - a.disabledRate);
 
   return {
     generatedAt: new Date().toISOString(),
-    upstream: nodes.find((n) => n.isRoot)?.id || null,
+    // Multi-root: `upstream` is now an array; `upstream` (singular) kept as
+    // the first one for back-compat with consumers that hard-coded it.
+    upstreams: roots.map((r) => r.id),
+    upstream: roots[0]?.id || null,
     stats: {
+      roots: roots.length,
       repos: nodes.length,
       forks: nodes.filter((n) => !n.isRoot).length,
       withAeonYml: nodes.filter((n) => n.skillCount > 0).length,
@@ -435,6 +485,12 @@ function buildGraph(repos) {
       forkEdges: edges.filter((e) => e.kind === "fork-of").length,
       skillEdges: edges.filter((e) => e.kind === "skill-overlap").length,
       totalStars: nodes.filter((n) => !n.isRoot).reduce((a, n) => a + (n.stars || 0), 0),
+      perRoot: roots.map((r) => ({
+        root: r.id,
+        forks: nodes.filter((n) => !n.isRoot && n.root === r.id).length,
+        withAeonYml: nodes.filter((n) => !n.isRoot && n.root === r.id && n.skillCount > 0).length,
+        stars: nodes.filter((n) => !n.isRoot && n.root === r.id).reduce((a, n) => a + (n.stars || 0), 0),
+      })),
     },
     skillPopularity: [...skillPopularity.entries()].sort((a, b) => b[1] - a[1])
       .map(([slug, count]) => ({ slug, count })),
@@ -460,8 +516,16 @@ function renderMarkdown(graph) {
   // Layout `default` matches the inherited theme (minima + skin overrides).
   let out = `---\nlayout: default\ntitle: "Aeon Atlas — Digest"\npermalink: /atlas/\n---\n\n`;
   out += `# Aeon Atlas\n\n`;
-  out += `> Auto-generated by \`scripts/atlas.mjs\` on ${graph.generatedAt.slice(0, 10)}. Source: GitHub Forks API for [${graph.upstream}](https://github.com/${graph.upstream}).\n\n`;
-  out += `**${s.repos} repos** (${s.forks} forks of \`${graph.upstream}\`), ${s.withAeonYml} carry an \`aeon.yml\`, ${s.archived} archived, ${s.totalStars} ★ across the fork network.\n\n`;
+  const rootList = (graph.upstreams || [graph.upstream]).map((u) => `[${u}](https://github.com/${u})`).join(", ");
+  out += `> Auto-generated by \`scripts/atlas.mjs\` on ${graph.generatedAt.slice(0, 10)}. Tracking ${(graph.upstreams || [graph.upstream]).length} upstream root(s): ${rootList}.\n\n`;
+  out += `**${s.repos} repos** across ${s.roots} roots, ${s.withAeonYml} carry an \`aeon.yml\`, ${s.archived} archived, ${s.totalStars} ★ across the fork network.\n\n`;
+  if (s.perRoot && s.perRoot.length > 1) {
+    out += `Per-root breakdown:\n\n| Root | Forks | With \`aeon.yml\` | ★ |\n|---|---:|---:|---:|\n`;
+    for (const r of s.perRoot) {
+      out += `| \`${r.root}\` | ${r.forks} | ${r.withAeonYml} | ${r.stars} |\n`;
+    }
+    out += `\n`;
+  }
   out += `Interactive map: [\`atlas.html\`](./atlas.html).\n\n`;
 
   out += `## Top forks by ★\n\n| ★ | Repo | Last push | Skills enabled |\n|---:|---|---|---:|\n`;
@@ -535,30 +599,48 @@ function renderDisabledDefaults(graph) {
   }
 
   const n = graph.stats.withAeonYml;
-  out += `Upstream (\`${graph.upstream}\`) ships **${graph.disabledDefaults.length}** skill(s) enabled by default. Across **${n}** forks with parseable \`aeon.yml\`, the disable rates are:\n\n`;
-  out += `| Skill | Disabled by | Rate |\n|---|---:|---:|\n`;
+  // Group disabled-defaults by root since each upstream has its own baseline.
+  // For roots with < 3 forks the rate is meaningless (everything will be
+  // 0% or 100%); we still surface them but with a sample-size disclaimer.
+  const byRoot = new Map();
   for (const d of graph.disabledDefaults) {
-    const pct = (d.disabledRate * 100).toFixed(0);
-    out += `| \`${d.slug}\` | ${d.disabledIn} / ${d.totalForksWithYml} | **${pct}%** |\n`;
+    if (!byRoot.has(d.root)) byRoot.set(d.root, []);
+    byRoot.get(d.root).push(d);
+  }
+  out += `Tracking ${byRoot.size} upstream root(s). Per-root tables below.\n\n`;
+  for (const [root, defaults] of byRoot) {
+    const sampleSize = defaults[0]?.totalForksWithYml || 0;
+    out += `## \`${root}\`\n\n`;
+    if (sampleSize < 3) {
+      out += `_Sample size: ${sampleSize} fork(s) — rates are not statistically meaningful at this scale; treat as descriptive only._\n\n`;
+    }
+    out += `Ships **${defaults.length}** skill(s) enabled by default. Disable rates across **${sampleSize}** forks:\n\n`;
+    out += `| Skill | Disabled by | Rate |\n|---|---:|---:|\n`;
+    for (const d of defaults) {
+      const pct = (d.disabledRate * 100).toFixed(0);
+      out += `| \`${d.slug}\` | ${d.disabledIn} / ${d.totalForksWithYml} | **${pct}%** |\n`;
+    }
+    out += `\n`;
   }
 
-  const strongRejects = graph.disabledDefaults.filter((d) => d.disabledRate >= 0.5);
+  // "Strong rejects" only useful for roots with a non-trivial sample.
+  const strongRejects = graph.disabledDefaults.filter((d) => d.disabledRate >= 0.5 && d.totalForksWithYml >= 5);
   if (strongRejects.length > 0) {
-    out += `\n## ≥ 50% disable rate → defaults to reconsider\n\n`;
+    out += `\n## ≥ 50% disable rate → defaults to reconsider (roots with ≥ 5 forks)\n\n`;
     out += `Skills disabled by a majority of operators are strong candidates for upstream to either (a) ship disabled-by-default, (b) document better what the trade-off is, or (c) fix whatever's making them unwelcome.\n\n`;
     for (const d of strongRejects) {
       const pct = (d.disabledRate * 100).toFixed(0);
-      out += `- **\`${d.slug}\`** — disabled by ${pct}% of forks (${d.disabledIn} / ${d.totalForksWithYml}).\n`;
+      out += `- **\`${d.root}\` → \`${d.slug}\`** — disabled by ${pct}% of forks (${d.disabledIn} / ${d.totalForksWithYml}).\n`;
     }
   }
 
-  const accepted = graph.disabledDefaults.filter((d) => d.disabledRate < 0.05);
+  const accepted = graph.disabledDefaults.filter((d) => d.disabledRate < 0.05 && d.totalForksWithYml >= 5);
   if (accepted.length > 0) {
-    out += `\n## Universally accepted defaults (< 5% disable rate)\n\n`;
+    out += `\n## Universally accepted defaults (< 5% disable rate, roots with ≥ 5 forks)\n\n`;
     out += `These defaults are working — almost no one turns them off.\n\n`;
     for (const d of accepted) {
       const pct = (d.disabledRate * 100).toFixed(1);
-      out += `- **\`${d.slug}\`** — disabled by only ${pct}% of forks.\n`;
+      out += `- **\`${d.root}\` → \`${d.slug}\`** — disabled by only ${pct}% of forks.\n`;
     }
   }
 
@@ -1019,40 +1101,60 @@ function main() {
     return;
   }
 
-  console.log(`atlas: enumerating forks of ${opts.upstream} (depth ${opts.depth})`);
+  console.log(`atlas: enumerating forks of ${opts.upstreams.length} upstream(s) [${opts.upstreams.join(", ")}] depth=${opts.depth}`);
+  const cacheKey = `forks-${opts.upstreams.map((u) => u.replace("/", "-")).join("+")}-d${opts.depth}`;
   let repos;
   if (opts.cache) {
-    repos = readCache(`forks-${opts.upstream.replace("/", "-")}-d${opts.depth}`);
+    repos = readCache(cacheKey);
     if (repos) console.log(`  cache hit: ${repos.length} repos`);
   }
   if (!repos) {
-    repos = fetchAllForks(opts.upstream, opts.depth);
-    writeCache(`forks-${opts.upstream.replace("/", "-")}-d${opts.depth}`, repos);
+    repos = fetchAllForksMulti(opts.upstreams, opts.depth);
+    writeCache(cacheKey, repos);
   }
-  console.log(`  found ${repos.length} repo(s) (including the upstream root)`);
+  console.log(`  found ${repos.length} repo(s) across all roots`);
 
-  // fetch aeon.yml + skills/ tree for each
+  // fetch aeon.yml + skills/ tree for each (incl. root nodes)
   console.log(`atlas: fetching aeon.yml and skills/ from each fork`);
   for (const r of repos) {
-    if (r.isRoot || !r.defaultBranch) continue;
-    const yml = ghRaw(r.fullName, r.defaultBranch, "aeon.yml");
+    if (!r.defaultBranch && !r.isRoot) continue;
+    const ref = r.defaultBranch || "main";
+    const yml = ghRaw(r.fullName, ref, "aeon.yml");
     r.enabledSkills = parseEnabledSkills(yml);
-    r.shippedSkills = fetchSkillSlugs(r.fullName, r.defaultBranch);
-  }
-  // upstream itself
-  const upstream = repos.find((r) => r.isRoot);
-  if (upstream) {
-    const yml = ghRaw(upstream.fullName, "main", "aeon.yml");
-    upstream.enabledSkills = parseEnabledSkills(yml);
-    upstream.shippedSkills = fetchSkillSlugs(upstream.fullName, "main");
+    r.shippedSkills = fetchSkillSlugs(r.fullName, ref);
   }
 
-  // Pull the upstream's two curated lists: ECOSYSTEM.md (projects built on
-  // Aeon — discovery) and skill-packs.json (installable community packs).
-  // Both attach to the graph after buildGraph so renderers can read them.
-  console.log(`atlas: fetching upstream ECOSYSTEM.md + skill-packs.json`);
-  const ecosystem = fetchEcosystem(opts.upstream);
-  const skillPacks = fetchSkillPacks(opts.upstream);
+  // Pull each upstream's two curated lists (only some roots ship them).
+  // Multiple roots often list the SAME entries — aeon-agent's ECOSYSTEM.md
+  // mostly mirrors aeon's. Merge by stable key (name for ecosystem, repo
+  // for packs) and preserve which roots list each entry as `listedBy[]`.
+  // Without this, downstream digests would double-count: same project
+  // appearing twice in ecosystem.md, same pack twice in skill-packs.md.
+  console.log(`atlas: fetching ECOSYSTEM.md + skill-packs.json per root`);
+  const ecosystemByName = new Map();
+  const skillPacksByRepo = new Map();
+  for (const root of opts.upstreams) {
+    const eco = fetchEcosystem(root);
+    for (const p of eco) {
+      const key = p.name;
+      if (!ecosystemByName.has(key)) {
+        ecosystemByName.set(key, { ...p, listedBy: [root] });
+      } else {
+        ecosystemByName.get(key).listedBy.push(root);
+      }
+    }
+    const packs = fetchSkillPacks(root);
+    for (const p of packs) {
+      const key = p.repo;
+      if (!skillPacksByRepo.has(key)) {
+        skillPacksByRepo.set(key, { ...p, listedBy: [root] });
+      } else {
+        skillPacksByRepo.get(key).listedBy.push(root);
+      }
+    }
+  }
+  const ecosystem = [...ecosystemByName.values()];
+  const skillPacks = [...skillPacksByRepo.values()];
 
   const graph = buildGraph(repos);
   // Cross-match ecosystem projects → forks (fuzzy)
