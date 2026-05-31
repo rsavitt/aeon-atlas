@@ -120,6 +120,87 @@ function ghRaw(repoFullName, ref, path) {
   return Buffer.from(obj.content, "base64").toString("utf8");
 }
 
+// Fetch raw commit dates for the last `daysBack` days. One page (≤ 100) is
+// enough — for activity-heatmap intensity, anything > 100 commits in 90 days
+// is already "very active". Returns ISO date strings, or [] on any failure.
+function fetchCommitDates(repoFullName, daysBack = 90) {
+  try {
+    const since = new Date(Date.now() - daysBack * 86400000).toISOString();
+    const commits = ghApi(`/repos/${repoFullName}/commits?since=${since}&per_page=100`);
+    if (!Array.isArray(commits)) return [];
+    return commits.map((c) => c.commit?.author?.date).filter(Boolean);
+  } catch (err) {
+    // 409 = empty repo. 404 = deleted. Suppress — common and not interesting.
+    if (!/409|404/.test(err.message)) {
+      console.warn(`  commits fetch failed for ${repoFullName}: ${err.message}`);
+    }
+    return [];
+  }
+}
+
+// Bucket commit timestamps into per-day counts for the last `days` days,
+// aligned to a calendar grid. Returns 7 × ⌈days/7⌉ cells where each cell is
+// { date: 'YYYY-MM-DD', count: N }. Empty days carry count 0 so the SVG grid
+// is always rectangular.
+function buildHeatmap(dates, days = 90, now = new Date()) {
+  // Align grid end to "yesterday" (today often partial) and walk back.
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  // Snap end to the Saturday that ends its week, so every column is a full week.
+  // Sun=0..Sat=6 — walk forward to Saturday.
+  const endShift = (6 - end.getUTCDay() + 7) % 7;
+  end.setUTCDate(end.getUTCDate() + endShift);
+  // Start is `days-1` cells back, then snap back to Sunday for a clean grid.
+  const start = new Date(end);
+  start.setUTCDate(end.getUTCDate() - (days - 1));
+  const startShift = -start.getUTCDay(); // back to Sunday (day 0)
+  start.setUTCDate(start.getUTCDate() + startShift);
+
+  const totalDays = Math.floor((end - start) / 86400000) + 1;
+  const cells = [];
+  for (let i = 0; i < totalDays; i++) {
+    const d = new Date(start);
+    d.setUTCDate(start.getUTCDate() + i);
+    cells.push({ date: d.toISOString().slice(0, 10), count: 0 });
+  }
+  const byDate = new Map(cells.map((c, i) => [c.date, i]));
+  for (const iso of dates) {
+    const key = iso.slice(0, 10);
+    if (byDate.has(key)) cells[byDate.get(key)].count++;
+  }
+  return cells;
+}
+
+function heatmapSvg(cells, opts = {}) {
+  const { size = 11, gap = 2 } = opts;
+  if (!cells || cells.length === 0) return "";
+  const rows = 7;
+  const cols = Math.ceil(cells.length / rows);
+  const width = cols * (size + gap);
+  const height = rows * (size + gap);
+  const max = Math.max(1, ...cells.map((c) => c.count));
+  // 5-level scale, GitHub-style. CSS variables let the theme palette take over
+  // in Quartz's dark mode without re-rendering.
+  function color(count) {
+    if (count === 0) return "var(--lightgray, #ebedf0)";
+    const t = count / max;
+    if (t < 0.25) return "#9be9a8";
+    if (t < 0.5) return "#40c463";
+    if (t < 0.75) return "#30a14e";
+    return "#216e39";
+  }
+  const rects = [];
+  for (let i = 0; i < cells.length; i++) {
+    const c = cells[i];
+    const col = Math.floor(i / rows);
+    const row = i % rows;
+    rects.push(
+      `<rect x="${col * (size + gap)}" y="${row * (size + gap)}" width="${size}" height="${size}" rx="2" ry="2" fill="${color(c.count)}"><title>${c.date}: ${c.count} commit${c.count === 1 ? "" : "s"}</title></rect>`,
+    );
+  }
+  const total = cells.reduce((a, c) => a + c.count, 0);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" aria-label="${total} commits in the last ${cells.length} days">${rects.join("")}</svg>`;
+}
+
 // List every skills/<slug>/SKILL.md path in a repo via the git tree API.
 // One call per repo (vs N for contents-API recursion), uses the ref's
 // commit SHA so the response is cacheable. Returns [] on any failure.
@@ -366,6 +447,8 @@ function buildGraph(repos) {
     enabledSkills: r.enabledSkills || [],
     skillCount: (r.enabledSkills || []).length,
     shippedSkills: r.shippedSkills || [],
+    recentCommits: r.recentCommits || [],
+    recentCommitCount: (r.recentCommits || []).length,
   }));
   const byId = new Map(nodes.map((n) => [n.id, n]));
   const roots = nodes.filter((n) => n.isRoot);
@@ -927,6 +1010,15 @@ function writeUniverseContent(graph, operators) {
       `- **Skills shipped in \`skills/\`:** ${(n.shippedSkills || []).length}`,
     ];
 
+    // 90-day commit-activity heatmap. Inline SVG so it renders without any
+    // Quartz-specific shortcode; gracefully degrades to a blank grid when
+    // the fetch returned nothing (private repo, empty commit history, etc).
+    const heatmap = buildHeatmap(n.recentCommits || [], 90);
+    const totalRecent = heatmap.reduce((a, c) => a + c.count, 0);
+    lines.push(``, `## Activity (last 90 days)`, ``);
+    lines.push(`**${totalRecent}** commit${totalRecent === 1 ? "" : "s"} (capped at 100 / fetch).`);
+    lines.push(``, heatmapSvg(heatmap), ``);
+
     // Parent fork
     if (n.parentFullName && !n.isRoot) {
       lines.push(``, `## Parent`, ``, `- [[forks/${forkSlug(n.parentFullName)}|${n.parentFullName}]]`);
@@ -1292,6 +1384,20 @@ function main() {
     const yml = ghRaw(r.fullName, ref, "aeon.yml");
     r.enabledSkills = parseEnabledSkills(yml);
     r.shippedSkills = fetchSkillSlugs(r.fullName, ref);
+  }
+
+  // Fetch commit activity per fork for the 90-day heatmap. Per-fork cache so
+  // a re-run within the TTL doesn't replay 148+ commit calls.
+  console.log(`atlas: fetching recent commit activity (90d) per fork`);
+  for (const r of repos) {
+    const cacheName = `commits-${r.fullName.replace("/", "-")}`;
+    let dates;
+    if (opts.cache) dates = readCache(cacheName);
+    if (!dates) {
+      dates = fetchCommitDates(r.fullName, 90);
+      writeCache(cacheName, dates);
+    }
+    r.recentCommits = dates;
   }
 
   // Pull each upstream's two curated lists (only some roots ship them).
