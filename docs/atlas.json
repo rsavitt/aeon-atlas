@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T15:17:37.275Z",
+  "generatedAt": "2026-05-31T15:21:24.369Z",
   "upstreams": [
     "aaronjmars/aeon",
     "aaronjmars/aeon-agent",
@@ -28454,21 +28454,6 @@
       "matchedFork": null
     },
     {
-      "name": "MiroShark",
-      "links": [
-        {
-          "label": "@miroshark_",
-          "url": "https://x.com/miroshark_",
-          "x_handle": "miroshark_"
-        }
-      ],
-      "listedBy": [
-        "aaronjmars/aeon",
-        "aaronjmars/aeon-agent"
-      ],
-      "matchedFork": null
-    },
-    {
       "name": "MythosForge",
       "links": [
         {
@@ -28845,6 +28830,26 @@
         {
           "label": "github",
           "url": "https://github.com/aeonbook/aeon-excalidraw-diagram"
+        }
+      ],
+      "listedBy": [
+        "aaronjmars/aeon",
+        "aaronjmars/aeon-agent",
+        "aaronjmars/miroshark-aeon"
+      ],
+      "matchedFork": null
+    },
+    {
+      "name": "MiroShark",
+      "links": [
+        {
+          "label": "github",
+          "url": "https://github.com/aaronjmars/MiroShark"
+        },
+        {
+          "label": "@miroshark_",
+          "url": "https://x.com/miroshark_",
+          "x_handle": "miroshark_"
         }
       ],
       "listedBy": [

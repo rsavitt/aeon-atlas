@@ -50,7 +50,6 @@ Listed in ECOSYSTEM.md but our fuzzy matcher couldn't find a public fork (could 
 | **Gitlawb Terminal** | [@Gitlawbterminal](https://x.com/Gitlawbterminal) |
 | **Liq** | [@_proxystudio](https://x.com/_proxystudio) |
 | **Mei** | [@MeiMighty1](https://x.com/MeiMighty1) |
-| **MiroShark** | [@miroshark_](https://x.com/miroshark_) |
 | **MythosForge** | [@mythosforgebot](https://x.com/mythosforgebot) |
 | **PancakeSwap** | [@PancakeSwap](https://x.com/PancakeSwap) |
 | **Powerloom** | [@Powerloom](https://x.com/Powerloom) |
@@ -73,6 +72,7 @@ Listed in ECOSYSTEM.md but our fuzzy matcher couldn't find a public fork (could 
 | **zer0** | [@atzer0_BOT](https://x.com/atzer0_BOT) |
 | **Westworld Host Template** | [github](https://github.com/proxima424/westworld-host-template) · [aeonbook](https://www.aeonbook.ai/deploy/host) |
 | **Aeon Excalidraw Diagram** | [github](https://github.com/aeonbook/aeon-excalidraw-diagram) |
+| **MiroShark** | [github](https://github.com/aaronjmars/MiroShark) · [@miroshark_](https://x.com/miroshark_) |
 
 ## Forks not listed in ECOSYSTEM.md or skill-packs
 

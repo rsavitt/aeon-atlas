@@ -9,3 +9,4 @@ Additional projects that build on Aeon but aren't yet listed in
 | Sparkleware | [github](https://github.com/sparkleware/sparkleware) |
 | Westworld Host Template | [github](https://github.com/proxima424/westworld-host-template) · [aeonbook](https://www.aeonbook.ai/deploy/host) |
 | Aeon Excalidraw Diagram | [github](https://github.com/aeonbook/aeon-excalidraw-diagram) |
+| MiroShark | [github](https://github.com/aaronjmars/MiroShark) · [@miroshark_](https://x.com/miroshark_) |

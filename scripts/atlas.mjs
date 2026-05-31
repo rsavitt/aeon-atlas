@@ -184,10 +184,12 @@ function fetchEcosystem(upstreamRepo) {
   const localPath = resolve(ROOT, "ECOSYSTEM.local.md");
   if (!existsSync(localPath)) return upstream;
   const local = parseEcosystemMd(readFileSync(localPath, "utf8"));
-  // De-dupe by normalized name so a project that lands upstream stops
-  // double-printing without anyone having to edit ECOSYSTEM.local.md.
-  const seen = new Set(upstream.map((p) => p.name.toLowerCase().replace(/\s+/g, "")));
-  return [...upstream, ...local.filter((p) => !seen.has(p.name.toLowerCase().replace(/\s+/g, "")))];
+  // De-dupe by normalized name. Local wins on collision so a fork can
+  // override upstream (e.g. add a GitHub link to an entry that upstream
+  // only listed by X handle).
+  const norm = (n) => n.toLowerCase().replace(/\s+/g, "");
+  const localNames = new Set(local.map((p) => norm(p.name)));
+  return [...upstream.filter((p) => !localNames.has(norm(p.name))), ...local];
 }
 
 function fetchSkillPacks(upstreamRepo) {
