@@ -1010,12 +1010,12 @@ function writeUniverseContent(graph, operators) {
       `- **Skills shipped in \`skills/\`:** ${(n.shippedSkills || []).length}`,
     ];
 
-    // 90-day commit-activity heatmap. Inline SVG so it renders without any
+    // 30-day commit-activity heatmap. Inline SVG so it renders without any
     // Quartz-specific shortcode; gracefully degrades to a blank grid when
     // the fetch returned nothing (private repo, empty commit history, etc).
-    const heatmap = buildHeatmap(n.recentCommits || [], 90);
+    const heatmap = buildHeatmap(n.recentCommits || [], 30);
     const totalRecent = heatmap.reduce((a, c) => a + c.count, 0);
-    lines.push(``, `## Activity (last 90 days)`, ``);
+    lines.push(``, `## Activity (last 30 days)`, ``);
     lines.push(`**${totalRecent}** commit${totalRecent === 1 ? "" : "s"} (capped at 100 / fetch).`);
     lines.push(``, heatmapSvg(heatmap), ``);
 
@@ -1386,15 +1386,15 @@ function main() {
     r.shippedSkills = fetchSkillSlugs(r.fullName, ref);
   }
 
-  // Fetch commit activity per fork for the 90-day heatmap. Per-fork cache so
+  // Fetch commit activity per fork for the 30-day heatmap. Per-fork cache so
   // a re-run within the TTL doesn't replay 148+ commit calls.
-  console.log(`atlas: fetching recent commit activity (90d) per fork`);
+  console.log(`atlas: fetching recent commit activity (30d) per fork`);
   for (const r of repos) {
     const cacheName = `commits-${r.fullName.replace("/", "-")}`;
     let dates;
     if (opts.cache) dates = readCache(cacheName);
     if (!dates) {
-      dates = fetchCommitDates(r.fullName, 90);
+      dates = fetchCommitDates(r.fullName, 30);
       writeCache(cacheName, dates);
     }
     r.recentCommits = dates;
