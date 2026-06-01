@@ -6,4 +6,4 @@ permalink: /whats-new/
 
 # What's new
 
-> First snapshot recorded 2026-05-31. No prior history to diff against yet — next run will produce the first delta.
+> Diff vs snapshot from **2026-05-31** (0 days ago). 0 new forks · 0 removed · 0 new novel skills · 0 new ecosystem entries · 0 new skill packs.

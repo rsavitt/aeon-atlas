@@ -29,3 +29,7 @@ The most autonomous agent framework. No approval loops. No babysitting. Configur
 ## Parent
 
 - [[forks/aaronjmars-aeon|aaronjmars/aeon]]
+
+## Operator
+
+- [[operators/roadtogideon222-byte|roadtogideon222-byte]]

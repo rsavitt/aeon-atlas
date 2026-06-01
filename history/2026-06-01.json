@@ -1,0 +1,1324 @@
+{
+  "generatedAt": "2026-06-01T03:15:05.719Z",
+  "upstreams": [
+    "aaronjmars/aeon",
+    "aaronjmars/aeon-agent",
+    "aaronjmars/miroshark-aeon"
+  ],
+  "stats": {
+    "repos": 148,
+    "forks": 145,
+    "withAeonYml": 145,
+    "totalStars": 10,
+    "ecosystemProjects": 50,
+    "skillPacks": 16
+  },
+  "nodes": [
+    {
+      "id": "simistern/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-30T11:17:45Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "shulthz/aeon-work",
+      "stars": 0,
+      "pushedAt": "2026-05-30T11:17:45Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "0xbobzilla/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-30T11:17:45Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "swarm-ai-safety/aeon-atlas",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:24:09Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Damoncrypto/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T13:11:26Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "likenow66/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-29T22:22:00Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "mandateseal/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-29T19:58:41Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "loessy/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T19:11:01Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AntFleet/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-29T05:18:43Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "AntFleet"
+    },
+    {
+      "id": "houndflow/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-30T03:29:42Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AIRYDER/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T19:11:01Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "ScoutAeon/Scout",
+      "stars": 0,
+      "pushedAt": "2026-05-29T19:40:23Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "NoctelXBT/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T16:06:56Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "Noctel"
+    },
+    {
+      "id": "KanekiCraynet/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-27T21:11:09Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "TakamiyaZee/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T08:16:55Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "xBalbinus/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T01:10:51Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "needsomevibe/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T14:34:59Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "0xWCME/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T14:34:59Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "richard7463/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T14:34:59Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "janicegrech1-hash/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T14:34:59Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Keeleran/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T21:21:07Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "sparkleware/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T15:58:00Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "Sparkleware"
+    },
+    {
+      "id": "codexvritra/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T05:57:43Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "KingRwaz/aeon",
+      "stars": 1,
+      "pushedAt": "2026-05-25T14:44:08Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "rimurucook/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T16:56:35Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "noelclaw/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T17:01:58Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "NoelClaw"
+    },
+    {
+      "id": "sarapsushi444-sudo/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T14:17:22Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "apolloclaws-oss/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T15:10:52Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "dontlickfrogs/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T17:58:37Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "ryjin111/aeon-pack-pr",
+      "stars": 0,
+      "pushedAt": "2026-05-26T14:15:52Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "DoughBoiKush/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T11:44:10Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "avalidurl/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:11:26Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jvbono/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-24T21:58:37Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AFHUNTLY/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T16:25:31Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "UIZorrot/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:53:09Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "masteramatajj-source/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-29T02:26:26Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "yehorcallmedai-maker/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T19:46:08Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "sooyooshq/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-23T16:44:15Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "liquidpadbot/aeon",
+      "stars": 1,
+      "pushedAt": "2026-05-29T16:12:21Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "LiquidPad"
+    },
+    {
+      "id": "shiyankuan-crypto/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-22T13:56:38Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "lawbworld-tech/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:43:06Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "LawbWorld"
+    },
+    {
+      "id": "luazhizhan/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-30T13:30:47Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "imthefounder/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-22T13:56:38Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "sherwoodagent/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-22T17:09:53Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "gitlawbounty/aeon",
+      "stars": 1,
+      "pushedAt": "2026-05-31T09:50:46Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "GitBounty"
+    },
+    {
+      "id": "bweick/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-21T14:14:20Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "0xShak/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-26T07:27:32Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "taekwonv89/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T13:24:47Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "svenakira/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T14:05:21Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "happycamper-stix/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-21T11:33:28Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "Amper"
+    },
+    {
+      "id": "cersei420/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-22T07:35:46Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "wx888/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-22T05:23:02Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jonathanjoseph20/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T00:02:52Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "danbuildss/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-21T01:33:37Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "smolboon/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-20T13:23:27Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "0xMal0u/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T09:50:52Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "youpsla/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:52:22Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "PyroFire-Labs/larry",
+      "stars": 0,
+      "pushedAt": "2026-05-20T13:23:27Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "bitcoiner-lab/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-20T13:23:27Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "antfleet-ops/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T10:01:17Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "forge-executive/forge-executive",
+      "stars": 0,
+      "pushedAt": "2026-05-19T14:03:46Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "DABAGElover/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T12:03:49Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "levi-oss-code/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T12:03:49Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "damo-nu11/aeon-minebean",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:35:09Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "Bean"
+    },
+    {
+      "id": "We3In/vvvkerrnel",
+      "stars": 0,
+      "pushedAt": "2026-05-19T02:42:54Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "We3In/vvvkernel-skills-up",
+      "stars": 0,
+      "pushedAt": "2026-05-18T12:03:49Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "We3In/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T12:03:49Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "abhirajprasad/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T12:03:49Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "coinhome190-spec/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T12:03:49Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "VibeSan7/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:14:36Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "anomit/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:50:32Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "enzoonchain/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T13:44:17Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "sinan33644061-lab/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-17T23:59:38Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "wuyu663/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T08:55:05Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "DevZenPro/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T10:31:02Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AntFleet/aeon-bench",
+      "stars": 0,
+      "pushedAt": "2026-05-22T02:11:27Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "foreverxdord/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T03:41:41Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "oxkaiba/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-17T21:58:32Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "baseddevoloper/vvvkernel-skills",
+      "stars": 0,
+      "pushedAt": "2026-05-17T21:37:50Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Azh1er/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T12:25:00Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "takanafur/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:46:46Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "KevinFreistroffer/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-17T11:19:02Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "0xMortimer/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-17T11:19:02Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "lioapple/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-17T08:06:34Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "ashneil12/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-25T15:41:01Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jiamicuisi-a11y/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-16T11:09:40Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "madebyshun/blueagent-aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T13:13:20Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": "Blue Agent"
+    },
+    {
+      "id": "meichuanyi/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-16T21:12:30Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "johnny5OO/aeon",
+      "stars": 1,
+      "pushedAt": "2026-05-15T13:09:34Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "speend/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-15T13:09:34Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "amandi99/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-14T20:20:56Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Daniel-DDV/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-14T20:20:56Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "usiclabs/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-18T19:18:11Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Danypsy/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-14T14:18:42Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Da6hkin/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:08:02Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "theipgirl/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-13T13:59:02Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "traewang/aeon-contrib",
+      "stars": 0,
+      "pushedAt": "2026-05-13T04:21:07Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "itr010038/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-21T22:22:47Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "varun86/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-11T11:20:33Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "fsgaleti-create/aeon",
+      "stars": 1,
+      "pushedAt": "2026-05-11T17:23:25Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Boodszw/Boodszw_Bread",
+      "stars": 0,
+      "pushedAt": "2026-05-31T09:50:58Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jimimased/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-09T20:56:35Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Aldine/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-06T11:38:52Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "ether-btc/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-28T08:50:52Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "FreyjasWrath/aeon",
+      "stars": 1,
+      "pushedAt": "2026-05-06T01:06:01Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "infrareactive/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-03T13:35:34Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "CNZSMJ/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-30T13:12:31Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "eugene-gourevitch/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-30T13:12:31Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "adarshhalan/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-29T13:25:47Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "tomscaria/aeon",
+      "stars": 2,
+      "pushedAt": "2026-05-12T22:22:38Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "DannyTsaii/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-24T16:50:27Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "MYJOR/aeon",
+      "stars": 1,
+      "pushedAt": "2026-04-22T17:41:54Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jdwyer76/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-21T11:14:09Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "0xfreddy/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-21T06:24:34Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "moseslua/talon",
+      "stars": 0,
+      "pushedAt": "2026-04-19T11:08:59Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "morashad1010/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-18T23:46:26Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "brandong1987/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-19T04:24:17Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "maacx2022/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-18T11:31:12Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "roadtogideon222-byte/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-17T21:00:29Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "JayNgDigitalCaptain/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-17T21:00:29Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jcksnykm/993",
+      "stars": 0,
+      "pushedAt": "2026-04-17T16:42:19Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "iilbell/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-17T11:15:16Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AcidicSoil/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-16T14:42:22Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "yugo-engineer/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:24:53Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "kevingrondin/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-15T18:53:18Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "arnaudbellemare/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-15T18:53:18Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AITOBIAS04/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-15T18:53:18Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "pezetel/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T14:06:00Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jordanfxlab/aeon",
+      "stars": 1,
+      "pushedAt": "2026-04-21T18:07:13Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "gcampton/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-25T23:53:57Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "lordchildrey/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-05T13:04:08Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "ThePortalFund/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-25T15:10:19Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AmithKumar1/aeon",
+      "stars": 0,
+      "pushedAt": "2026-05-31T12:54:50Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "kai-in-ai/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-23T23:34:44Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "hdkzt/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-24T03:28:13Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "jonnocraig/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-23T23:34:44Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Xedphilia/aeon",
+      "stars": 0,
+      "pushedAt": "2026-04-17T12:44:08Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "anonshinonome-ops/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-23T03:03:32Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "Anas-k-Tawfeeq/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-21T02:20:43Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "maxlife-symbiostreams/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-10T20:12:56Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "dennisonbertram/fork-aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-10T20:12:56Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "naolnegassa/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-10T20:12:56Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "keysemails/aeon",
+      "stars": 0,
+      "pushedAt": "2026-03-11T09:05:43Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "acumenix/aeon-agent",
+      "stars": 0,
+      "pushedAt": "2026-04-12T19:12:19Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    },
+    {
+      "id": "AITOBIAS04/CHORUS",
+      "stars": 0,
+      "pushedAt": "2026-05-31T12:10:48Z",
+      "archived": false,
+      "novelSkills": [],
+      "ecosystemName": null
+    }
+  ],
+  "ecosystemProjects": [
+    "Aeon Excalidraw Diagram",
+    "AgentBounty",
+    "Amper",
+    "AntFleet",
+    "Autonomopoly",
+    "Bankr",
+    "Bankrsynth",
+    "BaseHouse",
+    "Baseline",
+    "Bean",
+    "Blue Agent",
+    "Capacitr",
+    "Claw Harbor",
+    "ClawBank",
+    "Clerk",
+    "Cobot",
+    "GitBlock",
+    "GitBounty",
+    "GitKernal",
+    "Gitlawb Terminal",
+    "LawbWorld",
+    "Liq",
+    "LiquidPad",
+    "Mei",
+    "MiroShark",
+    "MythosForge",
+    "Noctel",
+    "NoelClaw",
+    "PancakeSwap",
+    "Powerloom",
+    "Precog",
+    "Reg Terminal",
+    "ResearchSwarm",
+    "Revault",
+    "RootAi",
+    "SAM",
+    "Signa",
+    "Solvr",
+    "Sparkleware",
+    "Spoon",
+    "SyntheticsAI",
+    "Tachi",
+    "USIC",
+    "Venice Kernel",
+    "Vexor",
+    "Wake",
+    "Westworld Host Template",
+    "aeonbook",
+    "x402Books",
+    "zer0"
+  ],
+  "skillPacks": [
+    "AntFleet/AntFleet aeon-skills",
+    "ZER0 LABS/zer0-skill-pack",
+    "baseddevoloper/aeon-skill-pack-vvvkernel",
+    "danbuildss/luca-aeon-skills",
+    "gitlawbounty/GitBounty Skill Pack",
+    "liquidpadbot/LiquidPad",
+    "noelclaw/aeon-skill-pack-noelclaw",
+    "ryjin111/aeon-skill-pack-mythosforge",
+    "signa-agent/signa",
+    "sparkleware/aeon-pulse",
+    "sparkleware/arxiv-digest",
+    "sparkleware/demo-pack",
+    "sparkleware/eth-gas-watch",
+    "sparkleware/hn-top",
+    "sparkleware/morning-briefing",
+    "sparkleware/registry-watch"
+  ],
+  "novelSkillSlugs": [
+    "aeon",
+    "alchemy",
+    "atlas",
+    "atlas-improve",
+    "bankr",
+    "bankr-token-research",
+    "brief-editorial-qa",
+    "build-skill",
+    "builder-post",
+    "careful-finance",
+    "competitor-watch",
+    "config-audit",
+    "crypto-research",
+    "daily-ops-review",
+    "dashboard-worker",
+    "delegation",
+    "eric-sharpe-prep",
+    "firecrawl",
+    "firecrawl-agent",
+    "firecrawl-build-interact",
+    "firecrawl-build-onboarding",
+    "firecrawl-build-scrape",
+    "firecrawl-build-search",
+    "firecrawl-crawl",
+    "firecrawl-download",
+    "firecrawl-interact",
+    "firecrawl-map",
+    "firecrawl-parse",
+    "firecrawl-scrape",
+    "firecrawl-search",
+    "fitness-tracker",
+    "fleet-sweep",
+    "gh-filing-standards",
+    "github-filing-registry",
+    "github-upstream-tracker",
+    "hermesos-backup-restore-watch",
+    "hermesos-finance-risk-review",
+    "hermesos-growth-desk",
+    "hn-digest",
+    "judgement-audit",
+    "lawb-pool-monitor",
+    "macos-apps",
+    "make-visible",
+    "meme-context-writer",
+    "mine-bean",
+    "monetize-revenant",
+    "morning-macro",
+    "narrative-vs-markets",
+    "omi-sync",
+    "opensea",
+    "outcome-tracker",
+    "perps-brief",
+    "perps-scan",
+    "polymarket-alpha-comments",
+    "polymarket-contrarian",
+    "polymarket-edge",
+    "polymarket-thesis",
+    "posthog-session-analyzer",
+    "powerloom-bds",
+    "prediction-journal",
+    "proposing-a-skill",
+    "proxmox-capacity",
+    "research-feed-writer",
+    "reviewing-skill-proposals",
+    "search-papers",
+    "session-learner",
+    "stale-lead-report",
+    "task-planner",
+    "test-worker",
+    "threads-ip-post",
+    "threads-token-refresh",
+    "token-call",
+    "trending-coins",
+    "zerion"
+  ]
+}
