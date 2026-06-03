@@ -1,0 +1,56 @@
+name: Add my project to the ecosystem
+description: |
+  Self-disclose a project that's built on Aeon. Merged entries appear on the
+  ecosystem page and in the Quartz universe graph.
+title: "ecosystem: [project name]"
+labels: [ecosystem]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting! Once a maintainer reviews this, a bot will open a PR
+        appending your entry to `ECOSYSTEM.local.md` and the next atlas rebuild
+        will pick it up.
+  - type: input
+    id: project_name
+    attributes:
+      label: Project name
+      description: Display name as it should appear in the ecosystem table.
+      placeholder: Sparkleware
+    validations:
+      required: true
+  - type: input
+    id: github_url
+    attributes:
+      label: GitHub repo URL
+      description: Public GitHub URL of the project repo (the org's own repo, not your aeon fork).
+      placeholder: https://github.com/your-org/your-project
+    validations:
+      required: true
+  - type: input
+    id: x_handle
+    attributes:
+      label: X / Twitter handle (optional)
+      description: Without the @.
+      placeholder: yourproject_
+  - type: input
+    id: other_url
+    attributes:
+      label: Other link (optional)
+      description: Website, docs, deploy page, etc.
+      placeholder: https://your-project.com
+  - type: textarea
+    id: description
+    attributes:
+      label: One-line description (optional)
+      description: Short pitch shown in the ecosystem table. Keep it under ~120 chars.
+      placeholder: Background agent that turns your inbox into a daily digest.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmations
+      options:
+        - label: I confirm this project actually uses Aeon and that I'm authorised to submit it.
+          required: true
+        - label: All links are public.
+          required: true

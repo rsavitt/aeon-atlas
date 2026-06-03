@@ -1,0 +1,89 @@
+name: ecosystem-from-issue
+
+# Turns an "Add my project to the ecosystem" issue into a PR appending the
+# entry to ECOSYSTEM.local.md. Triggered on any new/labeled issue; bails
+# unless the issue carries the `ecosystem` label (which the form template
+# adds automatically).
+
+on:
+  issues:
+    types: [opened, labeled, edited]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  add-entry:
+    if: contains(github.event.issue.labels.*.name, 'ecosystem')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Parse + append entry
+        id: parse
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          set +e
+          out=$(node scripts/ecosystem-from-issue.mjs 2>&1)
+          rc=$?
+          echo "$out"
+          {
+            echo "output<<EOF"
+            echo "$out"
+            echo "EOF"
+            echo "rc=$rc"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Validation failed → comment + exit
+        if: steps.parse.outputs.rc == '78'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          OUT: ${{ steps.parse.outputs.output }}
+        run: |
+          # Extract the VALIDATION_FAIL line only.
+          msg=$(echo "$OUT" | grep '^VALIDATION_FAIL:' | sed 's/^VALIDATION_FAIL: //')
+          gh issue comment "$ISSUE_NUMBER" --body "❌ Couldn't add this entry: $msg
+
+          Edit the issue to fix and I'll retry automatically."
+          exit 0
+
+      - name: Unexpected failure → exit hard
+        if: steps.parse.outputs.rc != '78' && steps.parse.outputs.rc != '0'
+        run: exit 1
+
+      - name: Open PR with the new entry
+        if: steps.parse.outputs.rc == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          OUT: ${{ steps.parse.outputs.output }}
+        run: |
+          name=$(echo "$OUT" | grep '^ADDED_NAME:' | sed 's/^ADDED_NAME: //')
+          row=$(echo "$OUT"  | grep '^ADDED_ROW:'  | sed 's/^ADDED_ROW: //')
+          branch="ecosystem/$(echo "$name" | tr '[:upper:] ' '[:lower:]-' | tr -cd 'a-z0-9-')-$ISSUE_NUMBER"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add ECOSYSTEM.local.md
+          git commit -m "ecosystem: add $name (closes #$ISSUE_NUMBER)"
+          git push -u origin "$branch"
+
+          gh pr create \
+            --title "ecosystem: add $name" \
+            --body "Self-disclosed via #$ISSUE_NUMBER.
+
+          \`\`\`
+          $row
+          \`\`\`
+
+          Closes #$ISSUE_NUMBER once merged. The next \`atlas\` skill run will pick the entry up and emit it on \`/universe/ecosystem/\`."
+
+          gh issue comment "$ISSUE_NUMBER" --body "✅ Opened a PR with this entry. A maintainer will review and merge."
