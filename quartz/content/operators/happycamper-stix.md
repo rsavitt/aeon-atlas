@@ -14,7 +14,7 @@ Operator profile: 2 atlas artifacts (1 fork, 0 packs, 1 ecosystem entry). Footpr
 
 ## Linked social handles
 
-- [@helloamper](https://x.com/helloamper)
+- [@ampera_xyze](https://x.com/ampera_xyze)
 
 ## Forks (1)
 

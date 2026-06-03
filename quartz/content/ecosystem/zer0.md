@@ -9,6 +9,6 @@ Project listed in upstream's [ECOSYSTEM.md](https://github.com/aaronjmars/aeon/b
 
 ## Links
 
-- [@atzer0_BOT](https://x.com/atzer0_BOT)
+- [@Jaineon0G](https://x.com/Jaineon0G)
 
 _(no known public fork — runs privately or uses non-obvious owner name)_

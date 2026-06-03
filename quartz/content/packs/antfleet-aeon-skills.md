@@ -6,7 +6,7 @@ author: "AntFleet"
 
 # AntFleet aeon-skills
 
-On-demand two-model-consensus PR review (Claude Opus + GPT) with on-chain USDC payment channel on Base. Pull-mode counterpart to AntFleet's auto-review GitHub App.
+On-demand two-model-consensus PR review with on-chain USDC payment on Base. Channel-rail variant for installed repos; x402-rail variant for public repos with pay-per-call USDC (v1 restricted to aeon-ecosystem callers).
 
 [Pack repository](https://github.com/AntFleet/aeon-skills)
 
@@ -14,7 +14,7 @@ On-demand two-model-consensus PR review (Claude Opus + GPT) with on-chain USDC p
 - **Category:** dev
 - **Trust level:** trusted
 - **License:** MIT
-- **Skills shipped:** 1
+- **Skills shipped:** 2
 
 ## Author's fork
 
@@ -23,3 +23,4 @@ On-demand two-model-consensus PR review (Claude Opus + GPT) with on-chain USDC p
 ## Skills in this pack
 
 - `pr-review-antfleet`
+- `pr-review-antfleet-x402`

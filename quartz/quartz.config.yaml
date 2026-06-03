@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: null
   locale: en-US
-  baseUrl: rsavitt.github.io/aeon-atlas/universe
+  baseUrl: swarm-ai-research.github.io/aeon-atlas/universe
   ignorePatterns:
     - private
     - templates

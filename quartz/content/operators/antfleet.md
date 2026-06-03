@@ -23,7 +23,7 @@ Operator profile: 4 atlas artifacts (2 forks, 1 pack, 1 ecosystem entry). Footpr
 
 ## Authored skill packs (1)
 
-- [[packs/antfleet-aeon-skills|AntFleet aeon-skills]] — 1 skill
+- [[packs/antfleet-aeon-skills|AntFleet aeon-skills]] — 2 skills
 
 ## Ecosystem identities (1)
 
