@@ -8,15 +8,15 @@ For what aeon itself is, see [the upstream README](https://github.com/aaronjmars
 
 ## Demo
 
-[![Quartz universe graph](docs/assets/universe-graph-dark.png)](https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4)
+[![Quartz universe graph](docs/assets/universe-graph-dark.png)](https://github.com/swarm-ai-research/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4)
 
-> Quartz graph of the fork ecosystem — three clusters, one per upstream root (`aeon`, `aeon-agent`, `miroshark-aeon`), connected by skill-overlap edges. **Click the still for the [10-second physics animation](https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4)** ([light version](https://github.com/swarm-ai-safety/aeon-atlas/raw/main/docs/assets/universe-graph-light.mp4)). Interactive version at **[swarm-ai-safety.github.io/aeon-atlas/universe/](https://swarm-ai-safety.github.io/aeon-atlas/universe/)**. Re-record with `node scripts/screenshot-universe.mjs --video --theme dark`.
+> Quartz graph of the fork ecosystem — three clusters, one per upstream root (`aeon`, `aeon-agent`, `miroshark-aeon`), connected by skill-overlap edges. **Click the still for the [10-second physics animation](https://github.com/swarm-ai-research/aeon-atlas/raw/main/docs/assets/universe-graph-dark.mp4)** ([light version](https://github.com/swarm-ai-research/aeon-atlas/raw/main/docs/assets/universe-graph-light.mp4)). Interactive version at **[swarm-ai-research.github.io/aeon-atlas/universe/](https://swarm-ai-research.github.io/aeon-atlas/universe/)**. Re-record with `node scripts/screenshot-universe.mjs --video --theme dark`.
 
 ## What you get
 
 | Artifact | What it shows |
 |---|---|
-| [`/universe/`](https://swarm-ai-safety.github.io/aeon-atlas/universe/) | Quartz-rendered graph + per-entity notes for every fork, ecosystem project, skill pack, and novel skill. Backlinks + tag clusters + global graph view. |
+| [`/universe/`](https://swarm-ai-research.github.io/aeon-atlas/universe/) | Quartz-rendered graph + per-entity notes for every fork, ecosystem project, skill pack, and novel skill. Backlinks + tag clusters + global graph view. |
 | [`docs/atlas.html`](docs/atlas.html) | Interactive Cytoscape map. Fork tree, colored by recent activity. Click any node for its enabled-skill list, ★, last-push date. |
 | [`docs/atlas.md`](docs/atlas.md) | Readable digest — top forks by ★, most-active recent pushes, most-enabled skills across the fleet, strongest customization-overlap pairs. |
 | [`docs/whats-new.md`](docs/whats-new.md) | Diff vs the most recent prior `history/` snapshot — new/removed forks, ★ movers, new novel skills, ecosystem additions, activity transitions. |

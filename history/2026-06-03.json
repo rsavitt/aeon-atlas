@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T01:23:26.495Z",
+  "generatedAt": "2026-06-03T01:40:19.150Z",
   "upstreams": [
     "aaronjmars/aeon",
     "aaronjmars/aeon-agent",
@@ -145,7 +145,7 @@
     {
       "id": "swarm-ai-research/aeon-atlas",
       "stars": 0,
-      "pushedAt": "2026-06-03T01:16:24Z",
+      "pushedAt": "2026-06-03T01:34:14Z",
       "archived": false,
       "novelSkills": [],
       "ecosystemName": null
@@ -561,7 +561,7 @@
     {
       "id": "youpsla/aeon",
       "stars": 0,
-      "pushedAt": "2026-06-03T00:04:17Z",
+      "pushedAt": "2026-06-03T01:28:54Z",
       "archived": false,
       "novelSkills": [],
       "ecosystemName": null
@@ -673,7 +673,7 @@
     {
       "id": "anomit/aeon",
       "stars": 0,
-      "pushedAt": "2026-06-03T01:16:20Z",
+      "pushedAt": "2026-06-03T01:30:46Z",
       "archived": false,
       "novelSkills": [],
       "ecosystemName": null

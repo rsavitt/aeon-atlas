@@ -7,7 +7,7 @@
 //
 //   # 2) In another terminal:
 //   node scripts/screenshot-universe.mjs                    # defaults
-//   node scripts/screenshot-universe.mjs --url https://swarm-ai-safety.github.io/aeon-atlas/universe/
+//   node scripts/screenshot-universe.mjs --url https://swarm-ai-research.github.io/aeon-atlas/universe/
 //   node scripts/screenshot-universe.mjs --theme dark --out docs/assets/universe-dark.png
 //   node scripts/screenshot-universe.mjs --note forks/aaronjmars-aeon --settle 6000
 //   node scripts/screenshot-universe.mjs --all              # capture light + dark, local + global
@@ -32,7 +32,7 @@ function parseArgv(argv) {
   const opts = {
     // Local dev server (npm run quartz -- build --serve) serves the site at
     // root; the `/universe/` mount only exists on the deployed Pages site.
-    // Pass --url https://swarm-ai-safety.github.io/aeon-atlas/universe/ to
+    // Pass --url https://swarm-ai-research.github.io/aeon-atlas/universe/ to
     // capture from prod instead.
     url: "http://localhost:8080/",
     // Default to a graph-rich content note. List/index pages have no Graph
