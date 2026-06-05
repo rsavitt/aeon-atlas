@@ -20,6 +20,7 @@ For what aeon itself is, see [the upstream README](https://github.com/aaronjmars
 | [`docs/atlas.html`](docs/atlas.html) | Interactive Cytoscape map. Fork tree, colored by recent activity. Click any node for its enabled-skill list, ★, last-push date. |
 | [`docs/atlas.md`](docs/atlas.md) | Readable digest — top forks by ★, most-active recent pushes, most-enabled skills across the fleet, strongest customization-overlap pairs. |
 | [`docs/whats-new.md`](docs/whats-new.md) | Diff vs the most recent prior `history/` snapshot — new/removed forks, ★ movers, new novel skills, ecosystem additions, activity transitions. |
+| [`docs/digest/`](docs/digest.md) + [`feed.xml`](docs/feed.xml) | Permanent per-date weekly-digest pages and an Atom feed. Subscribe at `/aeon-atlas/feed.xml`. |
 | [`atlas.json`](atlas.json) | Machine-readable: nodes (repos with metadata), edges (`fork-of` + `skill-overlap`), per-skill popularity. |
 
 ## How it builds the graph

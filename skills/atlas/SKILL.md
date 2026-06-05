@@ -64,7 +64,7 @@ If `git diff --quiet atlas.json docs/atlas.{md,html}` reports no change, exit si
 
 ```bash
 git checkout -b atlas/${today} 2>/dev/null || git checkout atlas/${today}
-git add atlas.json docs/atlas.md docs/atlas.html docs/atlas.json docs/innovations.md docs/disabled-defaults.md docs/ecosystem.md docs/skill-packs.md docs/operators.md docs/non-fork-users.md docs/whats-new.md history/ quartz/content/ docs/universe/
+git add atlas.json docs/atlas.md docs/atlas.html docs/atlas.json docs/innovations.md docs/disabled-defaults.md docs/ecosystem.md docs/skill-packs.md docs/operators.md docs/non-fork-users.md docs/whats-new.md docs/digest.md docs/digest/ docs/feed.xml history/ quartz/content/ docs/universe/
 git commit -m "atlas: ${verdict_one_line}"
 git push -u origin atlas/${today}
 gh pr create --title "atlas: ${verdict_one_line}" --body "Weekly ecosystem refresh — ${current.stats.repos} repos, ${current.stats.forkEdges} fork edges, ${current.stats.skillEdges} skill-overlap edges, ${current.stats.totalStars} ★ across the fork network.

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Aeon Atlas — Weekly digest</title>
+  <id>https://swarm-ai-research.github.io/aeon-atlas/feed.xml</id>
+  <link href="https://swarm-ai-research.github.io/aeon-atlas/" rel="alternate"/>
+  <link href="https://swarm-ai-research.github.io/aeon-atlas/feed.xml" rel="self"/>
+  <updated>2026-06-05T00:00:00Z</updated>
+  <author><name>scripts/atlas.mjs</name></author>
+  <entry>
+    <title>Digest 2026-06-05: 5 new forks</title>
+    <id>https://swarm-ai-research.github.io/aeon-atlas/digest/2026-06-05/</id>
+    <link href="https://swarm-ai-research.github.io/aeon-atlas/digest/2026-06-05/" rel="alternate"/>
+    <updated>2026-06-05T00:00:00Z</updated>
+    <summary>5 new forks</summary>
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;Diff vs snapshot from &lt;strong&gt;2026-06-03&lt;/strong&gt; (2 days ago). 5 new forks · 0 removed · 0 new novel skills · 0 new ecosystem entries · 0 new skill packs.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;New forks (5)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/NurstarK/aeon-upstream&quot;&gt;&lt;code&gt;NurstarK/aeon-upstream&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/yyayourt/aeon&quot;&gt;&lt;code&gt;yyayourt/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/aeoncity-hub/aeon&quot;&gt;&lt;code&gt;aeoncity-hub/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/seuzht/aeon&quot;&gt;&lt;code&gt;seuzht/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/beijiangqukuailian/aeon&quot;&gt;&lt;code&gt;beijiangqukuailian/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Went dormant (no push in 60+ days)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;lordchildrey/aeon&lt;/code&gt; — last push 2026-04-05&lt;/li&gt;
+&lt;/ul&gt;</content>
+  </entry>
+  <entry>
+    <title>Digest 2026-06-03: 13 new forks · 1 removed · 4 new novel skills · 2 new packs</title>
+    <id>https://swarm-ai-research.github.io/aeon-atlas/digest/2026-06-03/</id>
+    <link href="https://swarm-ai-research.github.io/aeon-atlas/digest/2026-06-03/" rel="alternate"/>
+    <updated>2026-06-03T00:00:00Z</updated>
+    <summary>13 new forks · 1 removed · 4 new novel skills · 2 new packs</summary>
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;Diff vs snapshot from &lt;strong&gt;2026-06-01&lt;/strong&gt; (2 days ago). 13 new forks · 1 removed · 4 new novel skills · 0 new ecosystem entries · 2 new skill packs.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;New forks (13)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/rsavitt/aeon-upstream&quot;&gt;&lt;code&gt;rsavitt/aeon-upstream&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/ikkeflikkeri/aeon&quot;&gt;&lt;code&gt;ikkeflikkeri/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/AISynthetics/aeon&quot;&gt;&lt;code&gt;AISynthetics/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/vigilcodes/aeon&quot;&gt;&lt;code&gt;vigilcodes/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/BuiltByEcho/aeon&quot;&gt;&lt;code&gt;BuiltByEcho/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/LiamVisionary/aeon&quot;&gt;&lt;code&gt;LiamVisionary/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/jianggaoyi/aeon&quot;&gt;&lt;code&gt;jianggaoyi/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/yindaqiu/aeon&quot;&gt;&lt;code&gt;yindaqiu/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/gdalabs/aeon&quot;&gt;&lt;code&gt;gdalabs/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/Atrium-Hermes/aeon&quot;&gt;&lt;code&gt;Atrium-Hermes/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/z-korp/aeon&quot;&gt;&lt;code&gt;z-korp/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/BBridgeers/aeon&quot;&gt;&lt;code&gt;BBridgeers/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/0xNN/aeon&quot;&gt;&lt;code&gt;0xNN/aeon&lt;/code&gt;&lt;/a&gt; — 0 ★&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Removed forks (1)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sooyooshq/aeon&lt;/code&gt; (deleted or unforked)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;New novel skills (4)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;lore-coins-monitor&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;msg&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;plan-adherence&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xai-bookmarks&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Removed ecosystem entries&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Noctel&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;New skill packs&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Atrium-Hermes/Atrium Skills&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mandateseal/MandateSeal Guard&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+  </entry>
+</feed>

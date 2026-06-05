@@ -3,40 +3,16 @@ title: "What's new"
 tags: [meta]
 ---
 
-> Diff vs snapshot from **2026-06-01** (2 days ago). 13 new forks · 1 removed · 4 new novel skills · 0 new ecosystem entries · 2 new skill packs.
+> Diff vs snapshot from **2026-06-03** (2 days ago). 5 new forks · 0 removed · 0 new novel skills · 0 new ecosystem entries · 0 new skill packs.
 
-## New forks (13)
+## New forks (5)
 
-- [`rsavitt/aeon-upstream`](https://github.com/rsavitt/aeon-upstream) — 0 ★
-- [`ikkeflikkeri/aeon`](https://github.com/ikkeflikkeri/aeon) — 0 ★
-- [`AISynthetics/aeon`](https://github.com/AISynthetics/aeon) — 0 ★
-- [`vigilcodes/aeon`](https://github.com/vigilcodes/aeon) — 0 ★
-- [`BuiltByEcho/aeon`](https://github.com/BuiltByEcho/aeon) — 0 ★
-- [`LiamVisionary/aeon`](https://github.com/LiamVisionary/aeon) — 0 ★
-- [`jianggaoyi/aeon`](https://github.com/jianggaoyi/aeon) — 0 ★
-- [`yindaqiu/aeon`](https://github.com/yindaqiu/aeon) — 0 ★
-- [`gdalabs/aeon`](https://github.com/gdalabs/aeon) — 0 ★
-- [`Atrium-Hermes/aeon`](https://github.com/Atrium-Hermes/aeon) — 0 ★
-- [`z-korp/aeon`](https://github.com/z-korp/aeon) — 0 ★
-- [`BBridgeers/aeon`](https://github.com/BBridgeers/aeon) — 0 ★
-- [`0xNN/aeon`](https://github.com/0xNN/aeon) — 0 ★
+- [`NurstarK/aeon-upstream`](https://github.com/NurstarK/aeon-upstream) — 0 ★
+- [`yyayourt/aeon`](https://github.com/yyayourt/aeon) — 0 ★
+- [`aeoncity-hub/aeon`](https://github.com/aeoncity-hub/aeon) — 0 ★
+- [`seuzht/aeon`](https://github.com/seuzht/aeon) — 0 ★
+- [`beijiangqukuailian/aeon`](https://github.com/beijiangqukuailian/aeon) — 0 ★
 
-## Removed forks (1)
+## Went dormant (no push in 60+ days)
 
-- `sooyooshq/aeon` (deleted or unforked)
-
-## New novel skills (4)
-
-- `lore-coins-monitor`
-- `msg`
-- `plan-adherence`
-- `xai-bookmarks`
-
-## Removed ecosystem entries
-
-- Noctel
-
-## New skill packs
-
-- `Atrium-Hermes/Atrium Skills`
-- `mandateseal/MandateSeal Guard`
+- `lordchildrey/aeon` — last push 2026-04-05

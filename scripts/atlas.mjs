@@ -56,6 +56,11 @@ const OUT_SKILL_PACKS = resolve(ROOT, "docs/skill-packs.md");
 const OUT_OPERATORS = resolve(ROOT, "docs/operators.md");
 const OUT_NON_FORK = resolve(ROOT, "docs/non-fork-users.md");
 const OUT_WHATS_NEW = resolve(ROOT, "docs/whats-new.md");
+const OUT_DIGEST_DIR = resolve(ROOT, "docs/digest");
+const OUT_DIGEST_INDEX = resolve(ROOT, "docs/digest.md");
+const OUT_FEED = resolve(ROOT, "docs/feed.xml");
+// Used by the Atom feed's <link rel="alternate"> + <id> URIs.
+const SITE_BASE = "https://swarm-ai-research.github.io/aeon-atlas";
 const HISTORY_DIR = resolve(ROOT, "history");
 const QUARTZ_CONTENT = resolve(ROOT, "quartz/content");
 const CACHE_DIR = resolve(ROOT, ".atlas-cache");
@@ -1619,6 +1624,7 @@ function main() {
   // usable on installs without the Quartz toolchain.
   if (existsSync(resolve(ROOT, "quartz"))) writeUniverseContent(graph, operators);
   const whatsNew = writeWhatsNew(graph);
+  const digest = writeDigestAndFeed();
 
   const s = graph.stats;
   console.log(`\natlas: ${s.repos} repos · ${s.withAeonYml} with aeon.yml · ${s.forkEdges} fork edges · ${s.skillEdges} skill-overlap edges · ${s.totalStars} ★`);
@@ -1643,6 +1649,7 @@ function main() {
   } else {
     console.log(`  whats-new: first snapshot recorded (no diff yet)`);
   }
+  console.log(`  digest: ${digest.entryCount} entr${digest.entryCount === 1 ? "y" : "ies"} → docs/digest/, docs/feed.xml`);
 }
 
 // ── weekly diff: snapshot graph, diff against the prior snapshot, render. ──
@@ -1891,6 +1898,152 @@ function writeWhatsNew(graph) {
     );
   }
   return { hadPrior: !!prior, diff };
+}
+
+// ── digest pages + Atom feed ──────────────────────────────────────────────
+// Per-date permalink pages for every diff between adjacent history snapshots.
+// Each page survives forever as the canonical record of that week. The Atom
+// feed indexes the most recent ones so feed readers (and bots) can subscribe.
+function loadAllSnapshots() {
+  if (!existsSync(HISTORY_DIR)) return [];
+  return readdirSync(HISTORY_DIR)
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort()
+    .map((f) => {
+      try {
+        return { date: f.slice(0, 10), data: JSON.parse(readFileSync(resolve(HISTORY_DIR, f), "utf8")) };
+      } catch { return null; }
+    })
+    .filter(Boolean);
+}
+
+function digestSummary(diff) {
+  const parts = [];
+  if (diff.newForks.length) parts.push(`${diff.newForks.length} new fork${diff.newForks.length === 1 ? "" : "s"}`);
+  if (diff.removedForks.length) parts.push(`${diff.removedForks.length} removed`);
+  if (diff.newNovelSkills.length) parts.push(`${diff.newNovelSkills.length} new novel skill${diff.newNovelSkills.length === 1 ? "" : "s"}`);
+  if (diff.newEcosystem.length) parts.push(`${diff.newEcosystem.length} new ecosystem entr${diff.newEcosystem.length === 1 ? "y" : "ies"}`);
+  if (diff.newPacks.length) parts.push(`${diff.newPacks.length} new pack${diff.newPacks.length === 1 ? "" : "s"}`);
+  return parts.length ? parts.join(" · ") : "no material changes";
+}
+
+// Tiny Markdown → HTML pass for feed content. Atom <content type="html"> wants
+// real HTML; converting the diff body via a full md parser pulls in deps we
+// don't otherwise need, so this handles only the constructs renderWhatsNewBody
+// actually emits: headings, bullets, **bold**, `code`, [text](url), blockquotes.
+function mdToHtml(md) {
+  const lines = md.split("\n");
+  const out = [];
+  let inList = false, inBlock = false;
+  const closeList = () => { if (inList) { out.push("</ul>"); inList = false; } };
+  const closeBlock = () => { if (inBlock) { out.push("</blockquote>"); inBlock = false; } };
+  function inline(s) {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  }
+  for (const raw of lines) {
+    if (/^##\s/.test(raw)) {
+      closeList(); closeBlock();
+      out.push(`<h2>${inline(raw.replace(/^##\s+/, ""))}</h2>`);
+    } else if (/^>\s?/.test(raw)) {
+      closeList();
+      if (!inBlock) { out.push("<blockquote>"); inBlock = true; }
+      out.push(`<p>${inline(raw.replace(/^>\s?/, ""))}</p>`);
+    } else if (/^-\s/.test(raw)) {
+      closeBlock();
+      if (!inList) { out.push("<ul>"); inList = true; }
+      out.push(`<li>${inline(raw.replace(/^-\s+/, ""))}</li>`);
+    } else if (raw.trim() === "") {
+      closeList(); closeBlock();
+    } else {
+      closeList(); closeBlock();
+      out.push(`<p>${inline(raw)}</p>`);
+    }
+  }
+  closeList(); closeBlock();
+  return out.join("\n");
+}
+
+function xmlEscape(s) {
+  return (s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function writeDigestAndFeed() {
+  const snaps = loadAllSnapshots();
+  if (snaps.length < 2) return { entryCount: 0 };
+
+  // Build one diff per adjacent pair.
+  const entries = [];
+  for (let i = 1; i < snaps.length; i++) {
+    const prev = snaps[i - 1];
+    const curr = snaps[i];
+    const diff = diffSnapshots(prev.data, curr.data);
+    const hasContent =
+      diff.newForks.length || diff.removedForks.length ||
+      diff.newNovelSkills.length || diff.newEcosystem.length ||
+      diff.newPacks.length || diff.dormancyWasActiveNowDormant.length ||
+      diff.dormancyWasDormantNowActive.length;
+    if (!hasContent) continue;
+    const body = renderWhatsNewBody(diff, { ...prev.data, date: prev.date }, curr.data);
+    entries.push({
+      date: curr.date,
+      prevDate: prev.date,
+      summary: digestSummary(diff),
+      body,
+    });
+  }
+
+  // Per-date permalink pages.
+  mkdirSync(OUT_DIGEST_DIR, { recursive: true });
+  for (const e of entries) {
+    const page = `---\nlayout: default\ntitle: "Aeon Atlas — Digest ${e.date}"\npermalink: /digest/${e.date}/\n---\n\n# ${e.date}\n\n${e.body}`;
+    writeFileSync(resolve(OUT_DIGEST_DIR, `${e.date}.md`), page);
+  }
+
+  // Index page.
+  let idx = `---\nlayout: default\ntitle: "Aeon Atlas — Weekly digest"\npermalink: /digest/\n---\n\n# Weekly digest\n\n`;
+  idx += `Auto-generated diff between each pair of [history snapshots](https://github.com/swarm-ai-research/aeon-atlas/tree/main/history). Subscribe via [Atom feed](/aeon-atlas/feed.xml).\n\n`;
+  for (const e of [...entries].reverse()) {
+    idx += `- **[${e.date}](/aeon-atlas/digest/${e.date}/)** — ${e.summary}\n`;
+  }
+  writeFileSync(OUT_DIGEST_INDEX, idx);
+
+  // Atom feed (last 20 entries).
+  const recent = [...entries].reverse().slice(0, 20);
+  const updated = recent[0]?.date || new Date().toISOString().slice(0, 10);
+  const feed = [];
+  feed.push(`<?xml version="1.0" encoding="utf-8"?>`);
+  feed.push(`<feed xmlns="http://www.w3.org/2005/Atom">`);
+  feed.push(`  <title>Aeon Atlas — Weekly digest</title>`);
+  feed.push(`  <id>${SITE_BASE}/feed.xml</id>`);
+  feed.push(`  <link href="${SITE_BASE}/" rel="alternate"/>`);
+  feed.push(`  <link href="${SITE_BASE}/feed.xml" rel="self"/>`);
+  feed.push(`  <updated>${updated}T00:00:00Z</updated>`);
+  feed.push(`  <author><name>scripts/atlas.mjs</name></author>`);
+  for (const e of recent) {
+    const url = `${SITE_BASE}/digest/${e.date}/`;
+    feed.push(`  <entry>`);
+    feed.push(`    <title>${xmlEscape(`Digest ${e.date}: ${e.summary}`)}</title>`);
+    feed.push(`    <id>${url}</id>`);
+    feed.push(`    <link href="${url}" rel="alternate"/>`);
+    feed.push(`    <updated>${e.date}T00:00:00Z</updated>`);
+    feed.push(`    <summary>${xmlEscape(e.summary)}</summary>`);
+    feed.push(`    <content type="html">${xmlEscape(mdToHtml(e.body))}</content>`);
+    feed.push(`  </entry>`);
+  }
+  feed.push(`</feed>`);
+  writeFileSync(OUT_FEED, feed.join("\n") + "\n");
+
+  return { entryCount: entries.length };
 }
 
 main();
