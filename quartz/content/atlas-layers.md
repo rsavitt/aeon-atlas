@@ -80,6 +80,7 @@ In-repo mechanism for things outside the project to be found from inside it. Reg
 Outside-the-project surfaces that consume Layer 4 feeds and render them for humans. The maintainer didn't build any of these. They exist because the feed was a public artifact.
 
 - [Sparkleware](https://sparkleware.dev) — Browsable storefront over skill-packs-catalog.json. Independent web property.
+- [aeonbook](https://www.aeonbook.ai) — Browsable gallery of Aeon host templates and operator deploys (Westworld Host Template, Excalidraw diagram, etc.). Storefront for the deploy/template surface the way Sparkleware is for the skill-pack surface.
 
 ## Layer 6 — Audit
 
@@ -111,7 +112,6 @@ Entities present in the underlying data that no layer has claimed yet. Promote t
 - [Westworld Host Template](https://github.com/proxima424/westworld-host-template)
 - [Aeon Excalidraw Diagram](https://github.com/aeonbook/aeon-excalidraw-diagram)
 - [MiroShark](https://github.com/aaronjmars/MiroShark)
-- [aeonbook](https://x.com/aeonbook_)
 - [AgentBounty](https://x.com/agentbountydev)
 - [Amper](https://x.com/ampera_xyze)
 - [Autonomopoly](https://x.com/AUTONOMOPOLY_)
