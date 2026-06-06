@@ -1338,6 +1338,8 @@ function writeUniverseContent(graph, operators) {
     ``,
     `# Aeon Atlas — Universe`,
     ``,
+    `<video src="../assets/universe-graph-light.mp4" autoplay loop muted playsinline style="width:100%;max-width:960px;border-radius:8px;"></video>`,
+    ``,
     `Every entity in the aeon ecosystem we know about, rendered as one navigable graph.`,
     ``,
     `Click the graph icon in the corner to open the global view (every node + edge), or browse via these starting points:`,
