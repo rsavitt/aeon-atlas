@@ -1,0 +1,42 @@
+{
+  "root": "card_main",
+  "state": {},
+  "elements": {
+    "card_main": {
+      "type": "Card",
+      "props": {
+        "title": "Atlas layers"
+      },
+      "children": [
+        "text_main",
+        "text_context",
+        "link_pr"
+      ]
+    },
+    "text_main": {
+      "type": "Text",
+      "props": {
+        "text": "aeonbook added to Layer 5 — Storefronts",
+        "variant": "lead"
+      },
+      "children": []
+    },
+    "text_context": {
+      "type": "Text",
+      "props": {
+        "text": "The deploy/template gallery promoted out of the unclassified pool into a curated layer, mirroring Sparkleware's role for skill-packs.",
+        "variant": "body"
+      },
+      "children": []
+    },
+    "link_pr": {
+      "type": "StoryLink",
+      "props": {
+        "title": "Pull Request #10",
+        "href": "https://github.com/swarm-ai-research/aeon-atlas/pull/10",
+        "source": "GitHub"
+      },
+      "children": []
+    }
+  }
+}
