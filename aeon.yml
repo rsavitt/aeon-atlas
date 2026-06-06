@@ -163,6 +163,7 @@ skills:
   workflow-security-audit: { enabled: false, schedule: "0 16 * * 0" } # Sunday — scan workflows for injection vectors
   skill-graph: { enabled: false, schedule: "0 17 * * 0" } # Sunday — regenerate skill dependency map
   atlas: { enabled: true, schedule: "0 4 * * 0" } # Sunday 04:00 UTC — fetch all public forks of aaronjmars/aeon, parse their aeon.yml, regenerate atlas.{json,md,html}; silent on no-change
+  atlas-layers: { enabled: true, schedule: "0 5 * * 0" } # Sunday 05:00 UTC — render the seven-layer categorical view (quartz/content/atlas-layers.md) from data/atlas-layers.json + atlas.json + skill-packs.json; notify only on new curated-layer entries or new unclassified ecosystem candidates
   atlas-improve: { enabled: true, schedule: "0 6 1 * *" } # 1st of month 06:00 UTC — diff last 30d of atlas.json, pick highest-magnitude surprise, open one capped improvement PR; silent on no surprises
   skill-freshness: { enabled: false, schedule: "0 8 * * *", model: "claude-sonnet-4-6", var: "" } # daily 08:00 UTC — audit enabled skills' upstream file dependencies for staleness; pass dry-run to skip notify; per-class thresholds (articles 28h / .outputs 4h / topics 7d / state 30d); fingerprint-based dedup, 7d re-emit window
   smithery-manifest: { enabled: false, schedule: "0 6 1/7 * *", model: "claude-sonnet-4-6" } # weekly — refresh docs/smithery-manifest.json + smithery.yaml + smithery-submission.md from skills.json + aeon-mcp; PR + notify only on diff

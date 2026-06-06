@@ -1,0 +1,111 @@
+{
+  "$comment": "Hand-curated seven-layer Atlas. Bulk layers (fleet, packs) auto-populate from atlas.json + skill-packs.json. Hand entries take precedence and add prose. Unclassified candidates surface at the bottom of the rendered page for promotion. Edit and re-run scripts/atlas-layers.mjs.",
+  "headline": "Aeon Atlas — Seven Layers",
+  "subhead": "A categorical map of the constellation around aaronjmars/aeon. Layers 1–3 list who. Layers 4–7 list what makes the orbit legible.",
+  "layers": [
+    {
+      "id": "operator-fork",
+      "title": "Layer 1 — Operator's fork",
+      "blurb": "The maintainer's own working test bed. Runs the same skill catalog one day behind main as an unbroken backport chain. The only layer the maintainer built deliberately.",
+      "entries": [
+        {
+          "kind": "fork",
+          "ref": "aaronjmars/aeon-agent",
+          "url": "https://github.com/aaronjmars/aeon-agent",
+          "note": "Same-day-after backport of main since 2026-05-03."
+        }
+      ]
+    },
+    {
+      "id": "fleet",
+      "title": "Layer 2 — The fleet",
+      "blurb": "Forks running their own cron schedules in production. Every entry is a live agent operating on its operator's behalf. The layer that turned Aeon from a tool into a workload.",
+      "auto": { "source": "atlas.json", "select": "active-forks", "limit": 30 },
+      "entries": []
+    },
+    {
+      "id": "skill-packs",
+      "title": "Layer 3 — Community skill packs",
+      "blurb": "Installable skill collections that live outside the Aeon repo and are pulled in on demand by ./install-skill-pack. Counted in skill-packs.json; rendered here from the same source.",
+      "auto": { "source": "skill-packs.json", "select": "packs" },
+      "entries": []
+    },
+    {
+      "id": "discovery",
+      "title": "Layer 4 — Discovery infrastructure",
+      "blurb": "In-repo mechanism for things outside the project to be found from inside it. Registry, installer, catalog feed.",
+      "entries": [
+        {
+          "kind": "artifact",
+          "title": "skill-packs.json",
+          "url": "https://github.com/aaronjmars/aeon/blob/main/skill-packs.json",
+          "note": "Machine-readable registry of community packs. The single source of truth Layer 3 renders from."
+        },
+        {
+          "kind": "artifact",
+          "title": "install-skill-pack (CLI)",
+          "url": "https://github.com/aaronjmars/aeon/blob/main/install-skill-pack",
+          "note": "On-demand pack installer. Runs a security scan against every SKILL.md and prompts on HIGH findings before writing a file."
+        },
+        {
+          "kind": "skill",
+          "ref": "sparkleware-catalog",
+          "title": "sparkleware-catalog (skill)",
+          "url": "https://github.com/aaronjmars/aeon/tree/main/skills/sparkleware-catalog",
+          "note": "Joins the registry to live GitHub signals and writes skill-packs-catalog.json — the machine-readable feed Layer 5 consumes."
+        }
+      ]
+    },
+    {
+      "id": "storefront",
+      "title": "Layer 5 — Storefronts",
+      "blurb": "Outside-the-project surfaces that consume Layer 4 feeds and render them for humans. The maintainer didn't build any of these. They exist because the feed was a public artifact.",
+      "entries": [
+        {
+          "kind": "ecosystem",
+          "ref": "Sparkleware",
+          "url": "https://sparkleware.dev",
+          "note": "Browsable storefront over skill-packs-catalog.json. Independent web property."
+        }
+      ]
+    },
+    {
+      "id": "audit",
+      "title": "Layer 6 — Audit",
+      "blurb": "Tools that don't ship code — they ship receipts against the code. Run consensus benches against PRs, file structured findings, hold the kernel accountable to its own standards.",
+      "entries": [
+        {
+          "kind": "ecosystem",
+          "ref": "AntFleet",
+          "url": "https://www.antfleet.dev",
+          "note": "Two-model consensus PR review (Claude Opus + GPT-5). Findings filed under aeon Issue #184 with file-and-line citations."
+        }
+      ]
+    },
+    {
+      "id": "intake",
+      "title": "Layer 7 — Intake",
+      "blurb": "Inbound funnel: how outside contributors land work in the kernel safely. Pre-flight scanning, secret-handling conventions, structured triage.",
+      "entries": [
+        {
+          "kind": "skill",
+          "ref": "pr-skill-triage",
+          "title": "pr-skill-triage (skill)",
+          "url": "https://github.com/aaronjmars/aeon/tree/main/skills/pr-skill-triage",
+          "note": "Workflow-dispatch skill that posts a structured comment on every inbound SKILL.md PR — security scan, required secrets, cron-slot conflicts."
+        },
+        {
+          "kind": "convention",
+          "title": "prefetch / postprocess sandbox shims",
+          "url": "https://github.com/aaronjmars/aeon/tree/main/scripts",
+          "note": "Maintainer lands scripts/prefetch-*.sh + scripts/postprocess-*.sh ahead of community SKILL.md PRs so contributors never carry secrets in their own commits."
+        }
+      ]
+    }
+  ],
+  "blank_spaces": [
+    { "title": "Workspaces & GUIs", "note": "No third-party operator console yet." },
+    { "title": "Multi-Agent Orchestration", "note": "No skills-of-skills composition framework yet." },
+    { "title": "Guides & Documentation", "note": "No community tutorial site yet." }
+  ]
+}

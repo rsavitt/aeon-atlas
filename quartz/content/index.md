@@ -14,6 +14,8 @@ Click the graph icon in the corner to open the global view (every node + edge), 
 - **18 community skill packs** in the installable registry
 - **4 novel skills** shipped by ≥ 2 forks (i.e. spreading outside upstream)
 
+Or browse the ecosystem by function: [[atlas-layers|seven layers]] — operator fork, fleet, skill packs, discovery infra, storefronts, audit, intake.
+
 ## How edges form
 
 Every wikilink in these notes becomes a graph edge. A fork links to its parent fork, its matched ecosystem project, its authored pack, and the novel skills it ships. Ecosystem projects and packs link back. Open the graph view in the top-right corner.
