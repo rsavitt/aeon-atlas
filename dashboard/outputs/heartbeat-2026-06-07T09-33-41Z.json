@@ -1,0 +1,106 @@
+{
+  "root": "card_main",
+  "state": {},
+  "elements": {
+    "card_main": {
+      "type": "Card",
+      "props": {
+        "title": "heartbeat"
+      },
+      "children": [
+        "stack_main"
+      ]
+    },
+    "stack_main": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "stack_header",
+        "alert_main",
+        "separator1",
+        "stack_context"
+      ]
+    },
+    "stack_header": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "sm"
+      },
+      "children": [
+        "badge_priority",
+        "heading_skill",
+        "badge_schedule"
+      ]
+    },
+    "badge_priority": {
+      "type": "Badge",
+      "props": {
+        "text": "P3 MISS",
+        "variant": "destructive"
+      },
+      "children": []
+    },
+    "heading_skill": {
+      "type": "Heading",
+      "props": {
+        "text": "atlas",
+        "level": "h3"
+      },
+      "children": []
+    },
+    "badge_schedule": {
+      "type": "Badge",
+      "props": {
+        "text": "Sun 04:00 UTC",
+        "variant": "outline"
+      },
+      "children": []
+    },
+    "alert_main": {
+      "type": "Alert",
+      "props": {
+        "type": "warning",
+        "message": "No cron-state entry today despite it being Sunday. Skill missed its only weekly slot. Worth checking the workflow/cron."
+      },
+      "children": []
+    },
+    "separator1": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      },
+      "children": []
+    },
+    "stack_context": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "text_sibling",
+        "text_issue"
+      ]
+    },
+    "text_sibling": {
+      "type": "Text",
+      "props": {
+        "text": "Sibling atlas-layers (05:00 slot) dispatched fine at 06:05 UTC",
+        "variant": "caption"
+      },
+      "children": []
+    },
+    "text_issue": {
+      "type": "Text",
+      "props": {
+        "text": "Tracked as ISS-001 heartbeat-recorder (still open, already tracked)",
+        "variant": "muted"
+      },
+      "children": []
+    }
+  }
+}
