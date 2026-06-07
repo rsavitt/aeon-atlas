@@ -1,0 +1,70 @@
+{
+  "root": "main-card",
+  "state": {},
+  "elements": {
+    "main-card": {
+      "type": "Card",
+      "props": {
+        "title": "heartbeat"
+      },
+      "children": [
+        "stalled-alert",
+        "fleet-status-stack",
+        "separator",
+        "weekly-summary"
+      ]
+    },
+    "stalled-alert": {
+      "type": "Alert",
+      "props": {
+        "type": "warning",
+        "title": "STALLED: PR #10 Blocking Atlas Refresh",
+        "message": "PR #10 (atlas-layers: aeonbook → Layer 5) open >24h. Requires operator merge call to refresh the public atlas-layers page."
+      }
+    },
+    "fleet-status-stack": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "fleet-badge",
+        "issue-details",
+        "recovery-status"
+      ]
+    },
+    "fleet-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Fleet DEGRADED",
+        "variant": "destructive"
+      }
+    },
+    "issue-details": {
+      "type": "Text",
+      "props": {
+        "text": "Only on known ISS-001: heartbeat cron-state recorder misclassification"
+      }
+    },
+    "recovery-status": {
+      "type": "Text",
+      "props": {
+        "text": "Skill is executing fine and recovering"
+      }
+    },
+    "separator": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "weekly-summary": {
+      "type": "Text",
+      "props": {
+        "text": "No new entrants this week",
+        "variant": "body"
+      }
+    }
+  }
+}
