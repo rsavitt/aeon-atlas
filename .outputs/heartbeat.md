@@ -1,17 +1,19 @@
-Heartbeat complete. `HEARTBEAT_OK · STATUS_PAGE=DEGRADED` — all flagged items were already notified within the last 48h, so no new notification was sent (dedup).
+HEARTBEAT_OK · STATUS_PAGE=DEGRADED
 
 ## Summary
 
-Ran the **heartbeat** skill for the 20:00 UTC Sunday slot (2026-06-07). All priority checks executed against `memory/cron-state.json` (authoritative), `aeon.yml`, `memory/issues/INDEX.md`, and `gh`.
+Ran the heartbeat skill for 2026-06-08 15:19 UTC (Monday). All P0–P3 checks executed against `cron-state.json`, open PRs/issues, and `aeon.yml`.
 
-**Findings (all pre-existing, deduped — no notification sent):**
-- **P0:** heartbeat shows chronic success_rate (12%, 4/33) but this is the known **ISS-001** cron-state recorder misclassification — `last_status=success`, `consecutive_failures=0`, `last_success` within 36h. atlas-layers healthy (80%). No stuck skills.
-- **P1:** PR #10 (atlas-layers aeonbook→Layer 5) still open, ~30.7h old / stalled — already STALLED-notified at 14:44 today. No open issues.
-- **P2:** none.
-- **P3:** `atlas` still missing its Sunday 04:00 slot (no cron-state entry) — already P3-notified at 09:31 today.
+**Findings (all standing, already notified within 48h → no new notification):**
+- **P0** — `heartbeat` trips the chronic threshold (success_rate 15%, 5/34) but it's the known **ISS-001** recorder misclassification: `last_status=success`, `consecutive_failures=0`, last success 2026-06-07 20:55 UTC (self-check <36h, OK). `atlas-layers` healthy. No failed or stuck skills.
+- **P1** — PR #10 still open (~49h, stalled); STALLED-notified 2026-06-07. No urgent issues.
+- **P2** — none.
+- **P3** — `atlas` still missing its Sunday 04:00 slot (no cron-state entry); P3-notified 2026-06-07.
+
+Every flag was already announced inside the 48h dedup window, so no `./notify` was sent (same posture as yesterday's 20:55 run).
 
 **Files modified:**
-- `docs/status.md` — regenerated (Overall 🔴 DEGRADED, updated 20:55 UTC, next run heartbeat 08:00 UTC Mon, skill table re-sorted; Token pulse section omitted — no `token-report-*` article exists).
-- `memory/logs/2026-06-07.md` — appended this run's findings.
+- `docs/status.md` — regenerated, Overall 🔴 DEGRADED, Updated 2026-06-08 15:19 UTC, next run heartbeat 20:00 UTC, 1 open issue (Token pulse section omitted — no `articles/token-report-*.md`).
+- `memory/logs/2026-06-08.md` — created with this run's log entry.
 
-**Follow-up (operator):** merge PR #10 to refresh the public atlas-layers page; investigate why `atlas` (Sun 04:00) never dispatched; ISS-001 remains open for skill-repair (recorder misclassifies zero-usage result JSON as failures).
+**Follow-ups (operator-owned, unchanged):** merge PR #10 to refresh the public atlas-layers page; investigate why `atlas` never dispatched its Sunday slot; resolve ISS-001 (heartbeat success/fail recorder misclassification).
