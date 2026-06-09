@@ -1,19 +1,19 @@
-Heartbeat complete.
-
-`HEARTBEAT_OK · STATUS_PAGE=DEGRADED`
+HEARTBEAT_OK · STATUS_PAGE=DEGRADED
 
 ## Summary
 
-Ran the heartbeat skill for the 2026-06-08 20:00 UTC slot. All priority checks executed; **no new notification sent** — every standing flag was already notified within the last 48h.
+Ran the heartbeat skill (2026-06-09 08:50 UTC, Tuesday). All checks passed with no new notifications required — every standing flag was already notified within the last 48h (dedup).
 
-**Findings (all deduped):**
-- **P0** — heartbeat success_rate 17% (6/35) trips the chronic threshold, but it's the known **ISS-001** recorder misclassification (last_status=success, consec_failures=0, last_success 15:20 today). atlas-layers healthy. No failed/stuck skills. Self-check OK (<36h).
-- **P1** — PR #10 stalled (~54h), already STALLED-notified ~30h ago. No open/urgent issues.
-- **P2** — nothing flagged.
-- **P3** — `atlas` still missing its Sunday 04:00 slot, already P3-notified ~35h ago. atlas-improve monthly (next Jul 1).
+**Checks:**
+- **P0 — Failed/stuck skills:** None. heartbeat shows chronic success_rate (19%, 7/36) but this is the known **ISS-001** recorder misclassification (`last_status=success`, `consecutive_failures=0`, last success ~12h ago). atlas-layers healthy. Self-check OK.
+- **P1 — Stalled PRs/issues:** PR #10 stalled (~66h) but already STALLED-notified 2026-06-07 14:44 (<48h) → dedup. No open GitHub issues.
+- **P2 — Memory follow-ups:** None.
+- **P3 — Missing scheduled skills:** `atlas` still missing its Sunday 04:00 slot; already P3-notified 2026-06-07 09:31 (~47h, <48h) → dedup.
+
+**Notification:** None sent (all flags within 48h dedup window).
 
 **Files modified:**
-- `docs/status.md` — regenerated (Overall 🔴 DEGRADED, 4 enabled skills, 1 open issue, next run heartbeat 08:00 UTC Tue; Token pulse omitted — no token report exists).
-- `memory/logs/2026-06-08.md` — appended 20:34 UTC run log.
+- `docs/status.md` — regenerated (Overall 🔴 DEGRADED, 4 enabled skills, 1 open issue, next run heartbeat 14:00 UTC; Token pulse omitted — no token report present).
+- `memory/logs/2026-06-09.md` — created with run log.
 
-**Follow-up (operator action, not auto-fixable by heartbeat):** merge PR #10 to refresh the public atlas-layers page; investigate why `atlas` never dispatched its weekly cron slot; ISS-001 remains open (heartbeat run-recorder misclassifies successful runs as failed).
+**Follow-up needed (operator):** ISS-001 (cron-state recorder misclassification) remains open and critical; PR #10 awaits merge; `atlas` weekly slot is not dispatching.
